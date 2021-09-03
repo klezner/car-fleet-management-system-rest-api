@@ -1,27 +1,19 @@
 package pl.kl.companycarfleetmanagementsystem.car;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Getter
-@Setter
-public class Car {
+@Builder
+public class UpdateCarRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull(message = "Car id is mandatory")
     private Long id;
     @NotBlank(message = "Car brand cannot be blank")
     private String brand;

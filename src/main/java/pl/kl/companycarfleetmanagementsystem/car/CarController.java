@@ -33,7 +33,7 @@ public class CarController {
                 .body(carMapper.mapCarToCarResponse(car));
     }
 
-    @GetMapping
+      @GetMapping
     public ResponseEntity<List<CarResponse>> getAllCars() {
         final List<Car> cars = carService.fetchAllCars();
 
@@ -48,5 +48,21 @@ public class CarController {
                             .map(car -> carMapper.mapCarToCarResponse(car))
                             .collect(Collectors.toList()));
         }
+    }
+
+    @PutMapping
+    public ResponseEntity<CarResponse> updateCar(@RequestBody @Valid UpdateCarRequest request) {
+        final Car car = carService.editCar(
+                request.getId(),
+                request.getBrand(),
+                request.getModel(),
+                request.getRegistrationNumber(),
+                request.getVinNumber(),
+                request.getProductionYear()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(carMapper.mapCarToCarResponse(car));
     }
 }
