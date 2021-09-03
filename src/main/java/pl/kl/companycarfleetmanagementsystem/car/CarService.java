@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CarService {
@@ -23,6 +25,11 @@ public class CarService {
 
         return carRepository.save(car);
     }
+  
+      public List<Car> fetchAllCars() {
+
+        return carRepository.findAll();
+      }
 
     @Transactional
     public Car editCar(Long id, String brand, String model, String registrationNumber, String vinNumber, Integer productionYear) {
