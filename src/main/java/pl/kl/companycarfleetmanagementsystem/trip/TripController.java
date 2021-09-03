@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.kl.companycarfleetmanagementsystem.validator.TripDateValidator;
 
 import javax.validation.Valid;
 
@@ -20,6 +21,9 @@ public class TripController {
 
     @PostMapping
     public ResponseEntity<TripResponse> addTrip(@RequestBody @Valid CreateTripRequest request) {
+
+        TripDateValidator.validateTripDate(request.getDepartureDate(), request.getReturnDate());
+
         final Trip trip = tripService.createTrip(
                 request.getDepartureDate(),
                 request.getReturnDate(),

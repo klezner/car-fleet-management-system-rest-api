@@ -1,0 +1,18 @@
+package pl.kl.companycarfleetmanagementsystem.exceptions;
+
+import lombok.Builder;
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+
+@Getter
+@Builder
+public class TripDateExceptionResponse {
+
+    private LocalDateTime timestamp;
+    private Integer status;
+    private String error;
+    private String trace;
+    private String message;
+    private String path;
+}
