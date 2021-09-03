@@ -3,10 +3,7 @@ package pl.kl.companycarfleetmanagementsystem.car;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -30,6 +27,22 @@ public class CarController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .body(carMapper.mapCarToCarResponse(car));
+    }
+
+    @PutMapping
+    public ResponseEntity<CarResponse> updateCar(@RequestBody @Valid UpdateCarRequest request) {
+        final Car car = carService.editCar(
+                request.getId(),
+                request.getBrand(),
+                request.getModel(),
+                request.getRegistrationNumber(),
+                request.getVinNumber(),
+                request.getProductionYear()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .body(carMapper.mapCarToCarResponse(car));
     }
 }
