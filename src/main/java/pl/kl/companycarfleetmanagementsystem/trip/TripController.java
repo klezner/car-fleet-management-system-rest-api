@@ -44,4 +44,13 @@ public class TripController {
                             .collect(Collectors.toList()));
         }
     }
+  
+        @PutMapping
+    public ResponseEntity<TripResponse> updateTrip(@RequestBody @Valid UpdateTripRequest request) {
+        final Trip trip = tripService.editTrip(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(tripMapper.mapTripToTripResponse(trip));
+    }
 }
