@@ -29,12 +29,29 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(TripDateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<TripDateExceptionResponse> handleTripDateException(TripDateException e) {
+    public ResponseEntity<CreatedExceptionResponse> handleTripDateException(TripDateException e) {
         log.warn(e.getMessage());
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(TripDateExceptionResponse.builder()
+                .body(CreatedExceptionResponse.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                        .trace(e.getStackTrace().toString())
+                        .message(e.getMessage())
+                        .path("/trip")
+                        .build());
+    }
+
+    @ExceptionHandler(MeterStatusException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CreatedExceptionResponse> handleMeterStatusException(MeterStatusException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(CreatedExceptionResponse.builder()
                         .timestamp(LocalDateTime.now())
                         .status(HttpStatus.BAD_REQUEST.value())
                         .error(HttpStatus.BAD_REQUEST.getReasonPhrase())

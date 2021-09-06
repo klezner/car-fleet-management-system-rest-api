@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-public class TripDateExceptionResponse {
+public class CreatedExceptionResponse {
 
     private LocalDateTime timestamp;
     private Integer status;
