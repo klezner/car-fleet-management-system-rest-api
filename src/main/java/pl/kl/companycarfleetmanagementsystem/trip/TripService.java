@@ -9,6 +9,7 @@ import pl.kl.companycarfleetmanagementsystem.validator.MeterStatusValidator;
 import pl.kl.companycarfleetmanagementsystem.validator.TripDateValidator;
 
 import java.util.NoSuchElementException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +36,11 @@ public class TripService {
                 .build();
 
         return tripRepository.save(trip);
+    }
+
+    public List<Trip> fetchAllTrips() {
+
+        return tripRepository.findAll();
     }
 
     public Trip editTrip(UpdateTripRequest request) {

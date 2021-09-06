@@ -39,7 +39,7 @@ public class CarController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(cars.stream()
-                            .map(car -> carMapper.mapCarToCarResponse(car))
+                            .map(carMapper::mapCarToCarResponse)
                             .collect(Collectors.toList()));
         }
     }
