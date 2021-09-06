@@ -31,21 +31,22 @@ public class CarService {
       }
 
     @Transactional
-    public Car editCar(Long id, String brand, String model, String registrationNumber, String vinNumber, Integer productionYear) {
-        final Car car = carRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Car with id: " + id + "not found"));
+    public Car editCar(UpdateCarRequest request) {
+        final Car car = carRepository.findById(request.getId())
+                .orElseThrow(() -> new NoSuchElementException("Car with id: " + request.getId() + "not found"));
 
-        car.setBrand(brand);
-        car.setModel(model);
-        car.setRegistrationNumber(registrationNumber);
-        car.setVinNumber(vinNumber);
-        car.setProductionYear(productionYear);
+        car.setBrand(request.getBrand());
+        car.setModel(request.getModel());
+        car.setRegistrationNumber(request.getRegistrationNumber());
+        car.setVinNumber(request.getVinNumber());
+        car.setProductionYear(request.getProductionYear());
 
         return carRepository.save(car);
     }
 
-    public Car fetchCarById(Long carId) {
+    public Car fetchCarById(Long id) {
 
-        return carRepository.findById(carId).orElseThrow(() -> new NoSuchElementException("Car with id: " + carId + " not found"));
+        return carRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Car with id: " + id + " not found"));
     }
 }

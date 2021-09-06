@@ -46,14 +46,7 @@ public class CarController {
 
     @PutMapping
     public ResponseEntity<CarResponse> updateCar(@RequestBody @Valid UpdateCarRequest request) {
-        final Car car = carService.editCar(
-                request.getId(),
-                request.getBrand(),
-                request.getModel(),
-                request.getRegistrationNumber(),
-                request.getVinNumber(),
-                request.getProductionYear()
-        );
+        final Car car = carService.editCar(request);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
