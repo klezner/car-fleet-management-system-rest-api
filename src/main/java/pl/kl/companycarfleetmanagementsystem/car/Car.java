@@ -2,15 +2,14 @@ package pl.kl.companycarfleetmanagementsystem.car;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import pl.kl.companycarfleetmanagementsystem.trip.Trip;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -37,4 +36,6 @@ public class Car {
     @Min(2000)
     @Max(2050)
     private Integer productionYear;
+    @OneToMany(mappedBy = "car")
+    private Set<Trip> trips;
 }

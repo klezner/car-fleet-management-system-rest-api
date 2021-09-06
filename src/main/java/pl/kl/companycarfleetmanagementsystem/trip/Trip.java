@@ -2,11 +2,9 @@ package pl.kl.companycarfleetmanagementsystem.trip;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.kl.companycarfleetmanagementsystem.car.Car;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -35,6 +33,7 @@ public class Trip {
     @Min(0)
     private Integer returnMeterStatus;
     private String comments;
-//    @NotNull(message = "Car id cannot be blank")
-//    private Long carId;
+    @NotNull(message = "Car id cannot be blank")
+    @ManyToOne
+    private Car car;
 }

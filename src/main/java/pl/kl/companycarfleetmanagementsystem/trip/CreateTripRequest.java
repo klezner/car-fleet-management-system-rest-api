@@ -25,6 +25,6 @@ public class CreateTripRequest {
     @Min(0)
     private Integer returnMeterStatus;
     private String comments;
-//    @NotNull(message = "Car id cannot be blank")
-//    private Long carId;
+    @NotNull(message = "Car id cannot be blank")
+    private Long carId;
 }
