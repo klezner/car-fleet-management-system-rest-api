@@ -3,23 +3,30 @@ package pl.kl.companycarfleetmanagementsystem.trip;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kl.companycarfleetmanagementsystem.car.Car;
-
-import java.time.LocalDate;
+import pl.kl.companycarfleetmanagementsystem.car.CarService;
+import pl.kl.companycarfleetmanagementsystem.validator.MeterStatusValidator;
+import pl.kl.companycarfleetmanagementsystem.validator.TripDateValidator;
 
 @Service
 @RequiredArgsConstructor
 public class TripService {
 
+    private final CarService carService;
     private final TripRepository tripRepository;
 
+    public Trip createTrip(CreateTripRequest request) {
 
-    public Trip createTrip(LocalDate departureDate, LocalDate returnDate, Integer departureMeterStatus, Integer returnMeterStatus, String comments, Car car) {
+        TripDateValidator.validateTripDate(request.getDepartureDate(), request.getReturnDate());
+        MeterStatusValidator.validateMeterStatus(request.getDepartureMeterStatus(), request.getReturnMeterStatus());
+
+        final Car car = carService.fetchCarById(request.getCarId());
+
         final Trip trip = Trip.builder()
-                .departureDate(departureDate)
-                .returnDate(returnDate)
-                .departureMeterStatus(departureMeterStatus)
-                .returnMeterStatus(returnMeterStatus)
-                .comments(comments)
+                .departureDate(request.getDepartureDate())
+                .returnDate(request.getReturnDate())
+                .departureMeterStatus(request.getDepartureMeterStatus())
+                .returnMeterStatus(request.getReturnMeterStatus())
+                .comments(request.getComments())
                 .car(car)
                 .build();
 
