@@ -20,20 +20,14 @@ public class CarController {
 
     @PostMapping
     public ResponseEntity<CarResponse> addCar(@RequestBody @Valid CreateCarRequest request) {
-        final Car car = carService.createCar(
-                request.getBrand(),
-                request.getModel(),
-                request.getRegistrationNumber(),
-                request.getVinNumber(),
-                request.getProductionYear()
-        );
+        final Car car = carService.createCar(request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(carMapper.mapCarToCarResponse(car));
     }
 
-      @GetMapping
+    @GetMapping
     public ResponseEntity<List<CarResponse>> getAllCars() {
         final List<Car> cars = carService.fetchAllCars();
 

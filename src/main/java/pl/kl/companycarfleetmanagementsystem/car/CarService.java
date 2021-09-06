@@ -13,13 +13,13 @@ public class CarService {
 
     private final CarRepository carRepository;
 
-    public Car createCar(String brand, String model, String registrationNumber, String vinNumber, Integer productionYear) {
+    public Car createCar(CreateCarRequest request) {
         final Car car = Car.builder()
-                .brand(brand)
-                .model(model)
-                .registrationNumber(registrationNumber)
-                .vinNumber(vinNumber)
-                .productionYear(productionYear)
+                .brand(request.getBrand())
+                .model(request.getModel())
+                .registrationNumber(request.getRegistrationNumber())
+                .vinNumber(request.getVinNumber())
+                .productionYear(request.getProductionYear())
                 .build();
 
         return carRepository.save(car);
