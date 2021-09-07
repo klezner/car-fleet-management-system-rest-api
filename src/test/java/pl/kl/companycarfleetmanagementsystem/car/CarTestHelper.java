@@ -6,36 +6,35 @@ import java.util.List;
 
 public class CarTestHelper {
 
-    static Car provideCarNr2() {
-        final Car car = Car.builder()
+    static Car provideCar2() {
+
+        return Car.builder()
+                .id(2222L)
                 .brand("Citroen")
                 .model("DS4")
                 .registrationNumber("WX5974A")
                 .productionYear(2016)
                 .vinNumber("VF7NXAHRMFY570817")
                 .build();
-
-        return car;
     }
 
-    static Car provideCarNr1() {
-        final Car car = Car.builder()
+    static Car provideCar1() {
+
+        return Car.builder()
+                .id(1111L)
                 .brand("Audi")
                 .model("A4 Avant")
                 .registrationNumber("PP5527P")
                 .productionYear(2018)
                 .vinNumber("WAUZZZF47JA126506")
                 .build();
-
-        return car;
     }
 
     public static List<Car> provideCarList() {
-        final List<Car> cars = new ArrayList<>(Arrays.asList(
-                provideCarNr1(),
-                provideCarNr2()
-        ));
 
-        return cars;
+        return new ArrayList<>(Arrays.asList(
+                provideCar1(),
+                provideCar2()
+        ));
     }
 }

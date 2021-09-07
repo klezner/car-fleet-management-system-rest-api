@@ -26,6 +26,7 @@ public class CarServiceTest {
 
     @BeforeEach
     void setUp() {
+
     }
 
     @Test
@@ -50,20 +51,32 @@ public class CarServiceTest {
         // when
         final List<Car> cars = carService.fetchAllCars();
         // then
-        verify(carRepository).findAll();
         verify(carRepository, times(1)).findAll();
         assertThat(cars.size()).isEqualTo(2);
         assertThat(cars.get(0)).isInstanceOf(Car.class);
+        assertThat(cars.get(0).getId()).isEqualTo(CarTestHelper.provideCarList().get(0).getId());
         assertThat(cars.get(0).getBrand()).isEqualTo(CarTestHelper.provideCarList().get(0).getBrand());
         assertThat(cars.get(0).getModel()).isEqualTo(CarTestHelper.provideCarList().get(0).getModel());
         assertThat(cars.get(0).getRegistrationNumber()).isEqualTo(CarTestHelper.provideCarList().get(0).getRegistrationNumber());
         assertThat(cars.get(0).getProductionYear()).isEqualTo(CarTestHelper.provideCarList().get(0).getProductionYear());
         assertThat(cars.get(0).getVinNumber()).isEqualTo(CarTestHelper.provideCarList().get(0).getVinNumber());
         assertThat(cars.get(1)).isInstanceOf(Car.class);
+        assertThat(cars.get(1).getId()).isEqualTo(CarTestHelper.provideCarList().get(1).getId());
         assertThat(cars.get(1).getBrand()).isEqualTo(CarTestHelper.provideCarList().get(1).getBrand());
         assertThat(cars.get(1).getModel()).isEqualTo(CarTestHelper.provideCarList().get(1).getModel());
         assertThat(cars.get(1).getRegistrationNumber()).isEqualTo(CarTestHelper.provideCarList().get(1).getRegistrationNumber());
         assertThat(cars.get(1).getProductionYear()).isEqualTo(CarTestHelper.provideCarList().get(1).getProductionYear());
         assertThat(cars.get(1).getVinNumber()).isEqualTo(CarTestHelper.provideCarList().get(1).getVinNumber());
+    }
+
+    // TODO - (test) editCar
+    @Test
+    void editCar_whenAllValuesAreCorrect_thenReturnUpdatedCar() {
+        // given
+
+        // when
+
+        // then
+
     }
 }
