@@ -30,18 +30,35 @@ public class CarServiceTest {
     }
 
     @Test
-    void createCar_whenAllValuesAreCorrect_thenReturnNewCar() {
+    void createCar_whenAllValuesAreCorrect_thenReturnNewCarFromRepository() {
         // when
-        carService.createCar(CreateCarRequestTestHelper.provideCreateCarRequest());
+        carService.createCar(CreateCarRequestTestHelper.provideCreateCar1Request());
         // then
         verify(carRepository).save(carArgumentCaptor.capture());
         final Car car = carArgumentCaptor.getValue();
         verify(carRepository, times(1)).save(any(Car.class));
-        assertThat(car.getBrand()).isEqualTo(CreateCarRequestTestHelper.provideCreateCarRequest().getBrand());
-        assertThat(car.getModel()).isEqualTo(CreateCarRequestTestHelper.provideCreateCarRequest().getModel());
-        assertThat(car.getRegistrationNumber()).isEqualTo(CreateCarRequestTestHelper.provideCreateCarRequest().getRegistrationNumber());
-        assertThat(car.getProductionYear()).isEqualTo(CreateCarRequestTestHelper.provideCreateCarRequest().getProductionYear());
-        assertThat(car.getVinNumber()).isEqualTo(CreateCarRequestTestHelper.provideCreateCarRequest().getVinNumber());
+        assertThat(car.getId()).isEqualTo(null);
+        assertThat(car.getBrand()).isEqualTo(CreateCarRequestTestHelper.provideCreateCar1Request().getBrand());
+        assertThat(car.getModel()).isEqualTo(CreateCarRequestTestHelper.provideCreateCar1Request().getModel());
+        assertThat(car.getRegistrationNumber()).isEqualTo(CreateCarRequestTestHelper.provideCreateCar1Request().getRegistrationNumber());
+        assertThat(car.getProductionYear()).isEqualTo(CreateCarRequestTestHelper.provideCreateCar1Request().getProductionYear());
+        assertThat(car.getVinNumber()).isEqualTo(CreateCarRequestTestHelper.provideCreateCar1Request().getVinNumber());
+    }
+
+    @Test
+    void createCar_whenAllValuesAreCorrect_thenReturnNewCar() {
+        // given
+        when(carRepository.save(any(Car.class))).thenReturn(CarTestHelper.provideCar1());
+        // when
+        final Car car = carService.createCar(CreateCarRequestTestHelper.provideCreateCar1Request());
+        // then
+        verify(carRepository, times(1)).save(any(Car.class));
+        assertThat(car.getId()).isEqualTo(CarTestHelper.provideCar1().getId());
+        assertThat(car.getBrand()).isEqualTo(CarTestHelper.provideCar1().getBrand());
+        assertThat(car.getModel()).isEqualTo(CarTestHelper.provideCar1().getModel());
+        assertThat(car.getRegistrationNumber()).isEqualTo(CarTestHelper.provideCar1().getRegistrationNumber());
+        assertThat(car.getProductionYear()).isEqualTo(CarTestHelper.provideCar1().getProductionYear());
+        assertThat(car.getVinNumber()).isEqualTo(CarTestHelper.provideCar1().getVinNumber());
     }
 
     @Test

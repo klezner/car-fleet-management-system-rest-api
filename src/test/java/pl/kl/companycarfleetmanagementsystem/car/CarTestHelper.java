@@ -10,11 +10,11 @@ public class CarTestHelper {
 
         return Car.builder()
                 .id(2222L)
-                .brand("Citroen")
-                .model("DS4")
-                .registrationNumber("WX5974A")
-                .productionYear(2016)
-                .vinNumber("VF7NXAHRMFY570817")
+                .brand(CreateCarRequestTestHelper.provideCreateCar2Request().getBrand())
+                .model(CreateCarRequestTestHelper.provideCreateCar2Request().getModel())
+                .registrationNumber(CreateCarRequestTestHelper.provideCreateCar2Request().getRegistrationNumber())
+                .productionYear(CreateCarRequestTestHelper.provideCreateCar2Request().getProductionYear())
+                .vinNumber(CreateCarRequestTestHelper.provideCreateCar2Request().getVinNumber())
                 .build();
     }
 
@@ -22,11 +22,11 @@ public class CarTestHelper {
 
         return Car.builder()
                 .id(1111L)
-                .brand("Audi")
-                .model("A4 Avant")
-                .registrationNumber("PP5527P")
-                .productionYear(2018)
-                .vinNumber("WAUZZZF47JA126506")
+                .brand(CreateCarRequestTestHelper.provideCreateCar1Request().getBrand())
+                .model(CreateCarRequestTestHelper.provideCreateCar1Request().getModel())
+                .registrationNumber(CreateCarRequestTestHelper.provideCreateCar1Request().getRegistrationNumber())
+                .productionYear(CreateCarRequestTestHelper.provideCreateCar1Request().getProductionYear())
+                .vinNumber(CreateCarRequestTestHelper.provideCreateCar1Request().getVinNumber())
                 .build();
     }
 

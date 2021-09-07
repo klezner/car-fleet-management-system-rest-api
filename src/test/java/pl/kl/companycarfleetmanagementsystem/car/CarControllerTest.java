@@ -8,6 +8,8 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -32,18 +34,30 @@ public class CarControllerTest {
     }
 
     @Test
-    void addCar_whenAllValuesAreCorrect_thenReturnNewCar() {
+    void addCar_whenAllValuesAreCorrect_thenReturnNewCarFromService() {
         // when
-        carController.addCar(CreateCarRequestTestHelper.provideCreateCarRequest());
+        carController.addCar(CreateCarRequestTestHelper.provideCreateCar1Request());
         // then
         verify(carService).createCar(createCarRequestArgumentCaptor.capture());
         final CreateCarRequest request = createCarRequestArgumentCaptor.getValue();
         verify(carService, times(1)).createCar(any(CreateCarRequest.class));
-        assertThat(request.getBrand()).isEqualTo(CreateCarRequestTestHelper.provideCreateCarRequest().getBrand());
-        assertThat(request.getModel()).isEqualTo(CreateCarRequestTestHelper.provideCreateCarRequest().getModel());
-        assertThat(request.getRegistrationNumber()).isEqualTo(CreateCarRequestTestHelper.provideCreateCarRequest().getRegistrationNumber());
-        assertThat(request.getProductionYear()).isEqualTo(CreateCarRequestTestHelper.provideCreateCarRequest().getProductionYear());
-        assertThat(request.getVinNumber()).isEqualTo(CreateCarRequestTestHelper.provideCreateCarRequest().getVinNumber());
+        assertThat(request.getBrand()).isEqualTo(CreateCarRequestTestHelper.provideCreateCar1Request().getBrand());
+        assertThat(request.getModel()).isEqualTo(CreateCarRequestTestHelper.provideCreateCar1Request().getModel());
+        assertThat(request.getRegistrationNumber()).isEqualTo(CreateCarRequestTestHelper.provideCreateCar1Request().getRegistrationNumber());
+        assertThat(request.getProductionYear()).isEqualTo(CreateCarRequestTestHelper.provideCreateCar1Request().getProductionYear());
+        assertThat(request.getVinNumber()).isEqualTo(CreateCarRequestTestHelper.provideCreateCar1Request().getVinNumber());
+    }
+
+    @Test
+    void addCar_whenAllValuesAreCorrect_thenReturnNewCar() {
+        // given
+        when(carService.createCar(any(CreateCarRequest.class))).thenReturn(CarTestHelper.provideCar1());
+        // when
+        final ResponseEntity<CarResponse> responseEntity = carController.addCar(CreateCarRequestTestHelper.provideCreateCar1Request());
+        // then
+        verify(carService, times(1)).createCar(any(CreateCarRequest.class));
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(responseEntity.getBody()).isEqualTo(null);
     }
 
     @Test

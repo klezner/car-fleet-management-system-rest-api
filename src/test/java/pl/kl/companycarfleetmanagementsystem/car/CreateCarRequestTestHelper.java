@@ -2,7 +2,17 @@ package pl.kl.companycarfleetmanagementsystem.car;
 
 public class CreateCarRequestTestHelper {
 
-    public static CreateCarRequest provideCreateCarRequest() {
+    static CreateCarRequest provideCreateCar2Request() {
+        return CreateCarRequest.builder()
+                .brand("Citroen")
+                .model("DS4")
+                .registrationNumber("WX5974A")
+                .productionYear(2016)
+                .vinNumber("VF7NXAHRMFY570817")
+                .build();
+    }
+
+    static CreateCarRequest provideCreateCar1Request() {
         return CreateCarRequest.builder()
                 .brand("Audi")
                 .model("A4 Avant")
