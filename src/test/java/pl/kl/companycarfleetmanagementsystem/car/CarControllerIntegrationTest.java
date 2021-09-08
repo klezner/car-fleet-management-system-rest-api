@@ -299,4 +299,41 @@ public class CarControllerIntegrationTest {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
         assertThat(carRepository.findAll()).isEmpty();
     }
+
+    @Test
+    void updateCar_whenCarIsSavedInDb_thenRetur200AndSaveUpdatedCarInDb() throws Exception {
+        // given
+        final CreateCarRequest createRequestBody = CreateCarRequestTestHelper.provideCreateCar1Request();
+        final MockHttpServletRequestBuilder createRequest = MockMvcRequestBuilders
+                .post("/car")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(createRequestBody));
+
+        mockMvc.perform(createRequest)
+                .andReturn().getResponse();
+
+        final Long createdCarId = carRepository.findAll().stream()
+                .findFirst().orElse(new Car()).getId();
+
+        final UpdateCarRequest updateRequestBody = UpdateCarRequestTestHelper.provideUpdateCar1Request(createdCarId);
+        final MockHttpServletRequestBuilder updateRequest = MockMvcRequestBuilders
+                .put("/car")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateRequestBody));
+        // when
+        final MockHttpServletResponse response = mockMvc.perform(updateRequest)
+                .andReturn().getResponse();
+        // then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(carRepository.findAll()).singleElement().isInstanceOf(Car.class);
+        assertThat(carRepository.findAll()).hasSize(1);
+        assertThat(carRepository.findAll()).allSatisfy(car -> {
+            assertThat(car.getId()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(createdCarId).getId());
+            assertThat(car.getBrand()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(createdCarId).getBrand());
+            assertThat(car.getModel()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(createdCarId).getModel());
+            assertThat(car.getRegistrationNumber()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(createdCarId).getRegistrationNumber());
+            assertThat(car.getProductionYear()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(createdCarId).getProductionYear());
+            assertThat(car.getVinNumber()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(createdCarId).getVinNumber());
+        });
+    }
 }
