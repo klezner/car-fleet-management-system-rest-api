@@ -33,7 +33,7 @@ public class CarService {
     @Transactional
     public Car editCar(UpdateCarRequest request) {
         final Car car = carRepository.findById(request.getId())
-                .orElseThrow(() -> new NoSuchElementException("Car with id: " + request.getId() + "not found"));
+                .orElseThrow(() -> new NoSuchElementException("Car with id: " + request.getId() + " not found"));
 
         car.setBrand(request.getBrand());
         car.setModel(request.getModel());

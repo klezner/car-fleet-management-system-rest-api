@@ -1,7 +1,9 @@
 package pl.kl.companycarfleetmanagementsystem.car;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -9,12 +11,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class CarServiceTest {
 
     @Mock
@@ -23,6 +27,8 @@ public class CarServiceTest {
     CarService carService;
     @Captor
     ArgumentCaptor<Car> carArgumentCaptor;
+    @Captor
+    ArgumentCaptor<Long> updatedCarIdArgumentCaptor;
 
     @BeforeEach
     void setUp() {
@@ -62,7 +68,7 @@ public class CarServiceTest {
     }
 
     @Test
-    void fetchAllCars_thenReturnAllCars() {
+    void fetchAllCars_whenThereAreCarsInDb_thenReturnAllCars() {
         // given
         when(carRepository.findAll()).thenReturn(CarTestHelper.provideCarList());
         // when
@@ -86,7 +92,29 @@ public class CarServiceTest {
         assertThat(cars.get(1).getVinNumber()).isEqualTo(CarTestHelper.provideCarList().get(1).getVinNumber());
     }
 
-    // TODO - (test) editCar
+    @Test
+    void fetchAllCars_whenDbIsEmpty_thenReturnAllCars() {
+        // given
+        when(carRepository.findAll()).thenReturn(new ArrayList<>());
+        // when
+        final List<Car> cars = carService.fetchAllCars();
+        // then
+        verify(carRepository, times(1)).findAll();
+        assertThat(cars).isEmpty();
+    }
+
+    @Test
+    void editCar_whenAllValuesAreCorrect_thenReturnUpdatedCarFromService() {
+        // when
+        carService.editCar(UpdateCarRequestTestHelper.provideUpdateCar1Request(1L));
+        // then
+        verify(carRepository).findById(updatedCarIdArgumentCaptor.capture());
+        final Long carId = updatedCarIdArgumentCaptor.getValue();
+        verify(carRepository, times(1)).findById(anyLong());
+        assertThat(carId).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(1L).getId());
+    }
+
+    // TODO: Test not implemented
     @Test
     void editCar_whenAllValuesAreCorrect_thenReturnUpdatedCar() {
         // given
@@ -94,6 +122,5 @@ public class CarServiceTest {
         // when
 
         // then
-
     }
 }

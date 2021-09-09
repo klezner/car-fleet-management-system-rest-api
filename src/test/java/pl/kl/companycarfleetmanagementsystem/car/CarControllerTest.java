@@ -1,7 +1,9 @@
 package pl.kl.companycarfleetmanagementsystem.car;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -11,12 +13,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class CarControllerTest {
 
     @Mock
@@ -27,6 +31,8 @@ public class CarControllerTest {
     CarController carController;
     @Captor
     ArgumentCaptor<CreateCarRequest> createCarRequestArgumentCaptor;
+    @Captor
+    ArgumentCaptor<UpdateCarRequest> updateCarRequestArgumentCaptor;
 
     @BeforeEach
     void setUp() {
@@ -61,7 +67,7 @@ public class CarControllerTest {
     }
 
     @Test
-    void getAllCars_thenReturnAllCars() {
+    void getAllCars_whenThereAreCarsInDb_thenReturnAllCars() {
         // given
         when(carService.fetchAllCars()).thenReturn(CarTestHelper.provideCarList());
         // when
@@ -85,14 +91,42 @@ public class CarControllerTest {
         assertThat(cars.get(1).getVinNumber()).isEqualTo(CarTestHelper.provideCarList().get(1).getVinNumber());
     }
 
-    // TODO - (test) updateCar
+    @Test
+    void getAllCars_whenDbIsEmpty_thenReturnAllCars() {
+        // given
+        when(carService.fetchAllCars()).thenReturn(new ArrayList<>());
+        // when
+        final List<Car> cars = carService.fetchAllCars();
+        // then
+        verify(carService, times(1)).fetchAllCars();
+        assertThat(cars).isEmpty();
+    }
+
+    @Test
+    void updateCar_whenAllValuesAreCorrect_thenReturnUpdatedCarFromService() {
+        // when
+        carController.updateCar(UpdateCarRequestTestHelper.provideUpdateCar1Request(1L));
+        // then
+        verify(carService).editCar(updateCarRequestArgumentCaptor.capture());
+        final UpdateCarRequest request = updateCarRequestArgumentCaptor.getValue();
+        verify(carService, times(1)).editCar(any(UpdateCarRequest.class));
+        assertThat(request.getId()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(1L).getId());
+        assertThat(request.getBrand()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(1L).getBrand());
+        assertThat(request.getModel()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(1L).getModel());
+        assertThat(request.getRegistrationNumber()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(1L).getRegistrationNumber());
+        assertThat(request.getProductionYear()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(1L).getProductionYear());
+        assertThat(request.getVinNumber()).isEqualTo(UpdateCarRequestTestHelper.provideUpdateCar1Request(1L).getVinNumber());
+    }
+
     @Test
     void updateCar_whenAllValuesAreCorrect_thenReturnUpdatedCar() {
         // given
-
+        when(carService.editCar(any(UpdateCarRequest.class))).thenReturn(CarTestHelper.provideCar1());
         // when
-
+        final ResponseEntity<CarResponse> responseEntity = carController.updateCar(UpdateCarRequestTestHelper.provideUpdateCar1Request(1111L));
         // then
-
+        verify(carService, times(1)).editCar(any(UpdateCarRequest.class));
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isEqualTo(null);
     }
 }
