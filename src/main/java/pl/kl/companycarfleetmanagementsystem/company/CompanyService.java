@@ -3,6 +3,8 @@ package pl.kl.companycarfleetmanagementsystem.company;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CompanyService {
@@ -15,5 +17,10 @@ public class CompanyService {
                 .build();
 
         return companyRepository.save(company);
+    }
+
+    public List<Company> fetchAllCompanies() {
+
+        return companyRepository.findAll();
     }
 }
