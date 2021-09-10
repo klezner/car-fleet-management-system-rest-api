@@ -1,8 +1,8 @@
 package pl.kl.companycarfleetmanagementsystem.validator;
 
-import pl.kl.companycarfleetmanagementsystem.exceptions.MeterStatusException;
+import pl.kl.companycarfleetmanagementsystem.exceptions.TripMeterStatusException;
 
-public class MeterStatusValidator {
+public class TripMeterStatusValidator {
 
     public static boolean validateMeterStatusOnTripCreate(Integer departureMeterStatus, Integer returnMeterStatus, Integer lastReturnMeterStatus) {
 
@@ -21,14 +21,14 @@ public class MeterStatusValidator {
 
     private static boolean validateDepartureMeterStatus(Integer departureMeterStatus, Integer lastReturnMeterStatus) {
         if (departureMeterStatus < lastReturnMeterStatus) {
-            throw new MeterStatusException("Incorrect departure meter status. Departure meter status should be greater or equal: " + lastReturnMeterStatus);
+            throw new TripMeterStatusException("Incorrect departure meter status. Departure meter status should be greater or equal: " + lastReturnMeterStatus);
         }
         return true;
     }
 
     private static boolean validateReturnMeterStatus(Integer departureMeterStatus, Integer returnMeterStatus) {
         if (returnMeterStatus < departureMeterStatus) {
-            throw new MeterStatusException("Incorrect return meter status. Return meter status should be less or equal to: " + returnMeterStatus);
+            throw new TripMeterStatusException("Incorrect return meter status. Return meter status should be less or equal to: " + returnMeterStatus);
         }
         return true;
     }
