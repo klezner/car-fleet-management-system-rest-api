@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.kl.companycarfleetmanagementsystem.car.Car;
 import pl.kl.companycarfleetmanagementsystem.car.CarRepository;
 import pl.kl.companycarfleetmanagementsystem.car.CarService;
-import pl.kl.companycarfleetmanagementsystem.validator.MeterStatusValidator;
 import pl.kl.companycarfleetmanagementsystem.validator.TripDateValidator;
+import pl.kl.companycarfleetmanagementsystem.validator.TripMeterStatusValidator;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,7 +38,7 @@ public class TripService {
                 .orElse(systemStartMeterStatus);
 
         TripDateValidator.validateTripDateOnTripCreate(request.getDepartureDate(), request.getReturnDate(), lastReturnDate);
-        MeterStatusValidator.validateMeterStatusOnTripCreate(request.getDepartureMeterStatus(), request.getReturnMeterStatus(), lastReturnMeterStatus);
+        TripMeterStatusValidator.validateMeterStatusOnTripCreate(request.getDepartureMeterStatus(), request.getReturnMeterStatus(), lastReturnMeterStatus);
 
         final Trip trip = Trip.builder()
                 .departureDate(request.getDepartureDate())
@@ -65,7 +65,7 @@ public class TripService {
                 .orElseThrow(() -> new NoSuchElementException("Car with id: " + request.getCarId() + "not found"));
 
         TripDateValidator.validateTripDateOnTripEdit(request.getDepartureDate(), request.getReturnDate());
-        MeterStatusValidator.validateMeterStatusOnTripEdit(request.getDepartureMeterStatus(), request.getReturnMeterStatus());
+        TripMeterStatusValidator.validateMeterStatusOnTripEdit(request.getDepartureMeterStatus(), request.getReturnMeterStatus());
 
         trip.setDepartureDate(request.getDepartureDate());
         trip.setReturnDate(request.getReturnDate());
@@ -75,5 +75,11 @@ public class TripService {
         trip.setCar(car);
 
         return tripRepository.save(trip);
+    }
+
+    public Trip fetchTripById(Long id) {
+
+        return tripRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Trip with id: " + id + " not found"));
     }
 }

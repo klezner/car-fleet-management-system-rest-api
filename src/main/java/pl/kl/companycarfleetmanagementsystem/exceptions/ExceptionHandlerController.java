@@ -44,9 +44,9 @@ public class ExceptionHandlerController {
                         .build());
     }
 
-    @ExceptionHandler(MeterStatusException.class)
+    @ExceptionHandler(TripMeterStatusException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CreatedExceptionResponse> handleMeterStatusException(MeterStatusException e) {
+    public ResponseEntity<CreatedExceptionResponse> handleTripMeterStatusException(TripMeterStatusException e) {
         log.warn(e.getMessage());
 
         return ResponseEntity
@@ -58,6 +58,40 @@ public class ExceptionHandlerController {
                         .trace(e.getStackTrace().toString())
                         .message(e.getMessage())
                         .path("/trip")
+                        .build());
+    }
+
+    @ExceptionHandler(RefuelingDateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CreatedExceptionResponse> handleRefuelingDateException(RefuelingDateException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(CreatedExceptionResponse.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                        .trace(e.getStackTrace().toString())
+                        .message(e.getMessage())
+                        .path("/refueling")
+                        .build());
+    }
+
+    @ExceptionHandler(RefuelingMeterStatusException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CreatedExceptionResponse> handleRefuelingMeterStatusException(RefuelingMeterStatusException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(CreatedExceptionResponse.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                        .trace(e.getStackTrace().toString())
+                        .message(e.getMessage())
+                        .path("/refueling")
                         .build());
     }
 }
