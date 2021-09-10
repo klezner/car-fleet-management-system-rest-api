@@ -3,11 +3,13 @@ package pl.kl.companycarfleetmanagementsystem.trip;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.kl.companycarfleetmanagementsystem.car.CarMapper;
+import pl.kl.companycarfleetmanagementsystem.employee.EmployeeMapper;
 
 @Component
 @RequiredArgsConstructor
 public class TripMapper {
 
+    private final EmployeeMapper employeeMapper;
     private final CarMapper carMapper;
 
     public TripResponse mapTripToTripResponse(Trip trip) {
@@ -20,6 +22,7 @@ public class TripMapper {
                 .returnMeterStatus(trip.getReturnMeterStatus())
                 .comments(trip.getComments())
                 .car(carMapper.mapCarToCarResponse(trip.getCar()))
+                .employee(employeeMapper.mapEmployeeToEmployeeResponse(trip.getEmployee()))
                 .build();
     }
 }

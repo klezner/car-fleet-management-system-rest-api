@@ -1,12 +1,11 @@
 package pl.kl.companycarfleetmanagementsystem.employee;
 
 import lombok.*;
+import pl.kl.companycarfleetmanagementsystem.trip.Trip;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -23,4 +22,6 @@ public class Employee {
     private String firstName;
     @NotBlank(message = "First name cannot be blank")
     private String lastName;
+    @OneToMany(mappedBy = "employee")
+    private Set<Trip> trips;
 }

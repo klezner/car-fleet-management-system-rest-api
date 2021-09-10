@@ -27,4 +27,6 @@ public class CreateTripRequest {
     private String comments;
     @NotNull(message = "Car id cannot be blank")
     private Long carId;
+    @NotNull(message = "Employee id cannot be blank")
+    private Long employeeId;
 }

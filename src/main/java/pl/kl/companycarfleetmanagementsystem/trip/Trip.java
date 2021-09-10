@@ -3,6 +3,7 @@ package pl.kl.companycarfleetmanagementsystem.trip;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.kl.companycarfleetmanagementsystem.car.Car;
+import pl.kl.companycarfleetmanagementsystem.employee.Employee;
 import pl.kl.companycarfleetmanagementsystem.refueling.Refueling;
 
 import javax.persistence.*;
@@ -40,4 +41,7 @@ public class Trip {
     private Car car;
     @OneToMany(mappedBy = "trip")
     private Set<Refueling> refuelings;
+    @NotNull(message = "Employee is necessary")
+    @ManyToOne
+    private Employee employee;
 }

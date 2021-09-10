@@ -3,6 +3,7 @@ package pl.kl.companycarfleetmanagementsystem.trip;
 import lombok.Builder;
 import lombok.Getter;
 import pl.kl.companycarfleetmanagementsystem.car.CarResponse;
+import pl.kl.companycarfleetmanagementsystem.employee.EmployeeResponse;
 
 import java.time.LocalDate;
 
@@ -17,4 +18,5 @@ public class TripResponse {
     private Integer returnMeterStatus;
     private String comments;
     private CarResponse car;
+    private EmployeeResponse employee;
 }

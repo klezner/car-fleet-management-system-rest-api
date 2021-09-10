@@ -37,4 +37,10 @@ public class EmployeeService {
 
         return employeeRepository.save(employee);
     }
+
+    public Employee fetchEmployeeById(Long id) {
+
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Employee with id: " + id + " not found"));
+    }
 }

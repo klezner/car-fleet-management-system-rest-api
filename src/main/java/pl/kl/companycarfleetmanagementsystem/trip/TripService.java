@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kl.companycarfleetmanagementsystem.car.Car;
 import pl.kl.companycarfleetmanagementsystem.car.CarService;
+import pl.kl.companycarfleetmanagementsystem.employee.Employee;
+import pl.kl.companycarfleetmanagementsystem.employee.EmployeeService;
 import pl.kl.companycarfleetmanagementsystem.validator.TripDateValidator;
 import pl.kl.companycarfleetmanagementsystem.validator.TripMeterStatusValidator;
 
@@ -16,6 +18,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class TripService {
 
+    private final EmployeeService employeeService;
     private final CarService carService;
     private final TripRepository tripRepository;
 
@@ -25,6 +28,7 @@ public class TripService {
         final Integer systemStartMeterStatus = 0;
 
         final Car car = carService.fetchCarById(request.getCarId());
+        final Employee employee = employeeService.fetchEmployeeById(request.getEmployeeId());
 
         final LocalDate lastReturnDate = car.getTrips().stream()
                 .map(Trip::getReturnDate)
@@ -46,6 +50,7 @@ public class TripService {
                 .returnMeterStatus(request.getReturnMeterStatus())
                 .comments(request.getComments())
                 .car(car)
+                .employee(employee)
                 .build();
 
         return tripRepository.save(trip);
