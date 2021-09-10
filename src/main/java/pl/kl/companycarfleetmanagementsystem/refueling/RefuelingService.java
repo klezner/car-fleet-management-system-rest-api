@@ -8,6 +8,7 @@ import pl.kl.companycarfleetmanagementsystem.validator.RefuelingDateValidator;
 import pl.kl.companycarfleetmanagementsystem.validator.RefuelingMeterStatusValidator;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +37,22 @@ public class RefuelingService {
     public List<Refueling> fetchAllRefuelings() {
 
         return refuelingRepository.findAll();
+    }
+
+    public Refueling editRefueling(UpdateRefuelingRequest request) {
+        final Refueling refueling = refuelingRepository.findById(request.getId())
+                .orElseThrow(() -> new NoSuchElementException("Refueling with id: " + request.getId() + " not found"));
+
+        final Trip trip = tripService.fetchTripById(request.getTripId());
+
+        RefuelingDateValidator.validateRefuelingDate(request.getDate(), trip.getDepartureDate(), trip.getReturnDate());
+        RefuelingMeterStatusValidator.validateRefuelingMeterStatus(request.getMeterStatus(), trip.getDepartureMeterStatus(), trip.getReturnMeterStatus());
+
+        refueling.setDate(request.getDate());
+        refueling.setMeterStatus(request.getMeterStatus());
+        refueling.setFuelAmount(request.getFuelAmount());
+        refueling.setTrip(trip);
+
+        return refuelingRepository.save(refueling);
     }
 }
