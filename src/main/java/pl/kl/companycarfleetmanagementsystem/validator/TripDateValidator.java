@@ -6,27 +6,32 @@ import java.time.LocalDate;
 
 public class TripDateValidator {
 
-    private static final LocalDate MINIMUM_DATE = LocalDate.of(2000, 1, 1);
+    public static boolean validateTripDateOnTripCreate(LocalDate departureDate, LocalDate returnDate, LocalDate lastReturnDate) {
 
-    public static boolean validateTripDate(LocalDate departureDate, LocalDate returnDate) {
-
-        validateDepartureDate(departureDate);
+        validateDepartureDate(departureDate, lastReturnDate);
         validateReturnDate(departureDate, returnDate);
 
         return true;
     }
 
-    private static boolean validateDepartureDate(LocalDate departureDate) {
-        if (!departureDate.isAfter(MINIMUM_DATE)) {
-            throw new TripDateException("Incorrect departure date. Departure date should be after: " + MINIMUM_DATE.toString());
+    public static boolean validateTripDateOnTripEdit(LocalDate departureDate, LocalDate returnDate) {
+
+        validateReturnDate(departureDate, returnDate);
+
+        return true;
+    }
+
+    private static boolean validateDepartureDate(LocalDate departureDate, LocalDate lastReturnDate) {
+        if (departureDate.isBefore(lastReturnDate)) {
+            throw new TripDateException("Incorrect departure date. Departure date should be after: " + lastReturnDate.toString());
         }
-        return departureDate.isAfter(MINIMUM_DATE);
+        return lastReturnDate.isBefore(departureDate);
     }
 
     private static boolean validateReturnDate(LocalDate departureDate, LocalDate returnDate) {
         if (returnDate.isBefore(departureDate)) {
             throw new TripDateException("Incorrect return date. Return date should be after: " + departureDate.toString());
         }
-        return departureDate.isBefore(departureDate);
+        return departureDate.isBefore(returnDate);
     }
 }
