@@ -1,6 +1,5 @@
 package pl.kl.companycarfleetmanagementsystem.trip;
 
-import lombok.Builder;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,7 +8,6 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
-@Builder
 public class UpdateTripRequest {
 
     @NotNull(message = "Trip id is mandatory")
