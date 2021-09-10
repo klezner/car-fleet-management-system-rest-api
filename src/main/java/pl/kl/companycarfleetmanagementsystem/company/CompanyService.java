@@ -35,4 +35,11 @@ public class CompanyService {
 
         return companyRepository.save(company);
     }
+
+    public Company fetchCompanyById(Long id) {
+
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Company with id: " + id + " not found"));
+
+    }
 }

@@ -1,12 +1,11 @@
 package pl.kl.companycarfleetmanagementsystem.department;
 
 import lombok.*;
+import pl.kl.companycarfleetmanagementsystem.company.Company;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @AllArgsConstructor
@@ -24,4 +23,7 @@ public class Department {
     @NotBlank(message = "Department abbreviation cannot be blank")
     private String abbreviation;
     private String comment;
+    @NotNull(message = "Company is necessary")
+    @ManyToOne
+    private Company company;
 }
