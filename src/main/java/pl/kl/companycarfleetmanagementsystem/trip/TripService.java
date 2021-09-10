@@ -3,7 +3,6 @@ package pl.kl.companycarfleetmanagementsystem.trip;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.kl.companycarfleetmanagementsystem.car.Car;
-import pl.kl.companycarfleetmanagementsystem.car.CarRepository;
 import pl.kl.companycarfleetmanagementsystem.car.CarService;
 import pl.kl.companycarfleetmanagementsystem.validator.TripDateValidator;
 import pl.kl.companycarfleetmanagementsystem.validator.TripMeterStatusValidator;
@@ -16,7 +15,6 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class TripService {
 
-    private final CarRepository carRepository;
     private final CarService carService;
     private final TripRepository tripRepository;
 
