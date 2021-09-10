@@ -3,6 +3,8 @@ package pl.kl.companycarfleetmanagementsystem.employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class EmployeeService {
@@ -16,5 +18,10 @@ public class EmployeeService {
                 .build();
 
         return employeeRepository.save(employee);
+    }
+
+    public List<Employee> fetchAllEmployees() {
+
+        return employeeRepository.findAll();
     }
 }
