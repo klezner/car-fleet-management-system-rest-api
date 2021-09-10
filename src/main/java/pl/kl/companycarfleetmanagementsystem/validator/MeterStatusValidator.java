@@ -4,19 +4,24 @@ import pl.kl.companycarfleetmanagementsystem.exceptions.MeterStatusException;
 
 public class MeterStatusValidator {
 
-    private static final Integer MINIMUM_METER_STATUS = 0;
+    public static boolean validateMeterStatusOnTripCreate(Integer departureMeterStatus, Integer returnMeterStatus, Integer lastReturnMeterStatus) {
 
-    public static boolean validateMeterStatus(Integer departureMeterStatus, Integer returnMeterStatus) {
-
-        validateDepartureMeterStatus(departureMeterStatus);
+        validateDepartureMeterStatus(departureMeterStatus, lastReturnMeterStatus);
         validateReturnMeterStatus(departureMeterStatus, returnMeterStatus);
 
         return true;
     }
 
-    private static boolean validateDepartureMeterStatus(Integer departureMeterStatus) {
-        if (departureMeterStatus < MINIMUM_METER_STATUS) {
-            throw new MeterStatusException("Incorrect departure meter status. Departure meter status should be greater or equal: " + MINIMUM_METER_STATUS);
+    public static boolean validateMeterStatusOnTripEdit(Integer departureMeterStatus, Integer returnMeterStatus) {
+
+        validateReturnMeterStatus(departureMeterStatus, returnMeterStatus);
+
+        return true;
+    }
+
+    private static boolean validateDepartureMeterStatus(Integer departureMeterStatus, Integer lastReturnMeterStatus) {
+        if (departureMeterStatus < lastReturnMeterStatus) {
+            throw new MeterStatusException("Incorrect departure meter status. Departure meter status should be greater or equal: " + lastReturnMeterStatus);
         }
         return true;
     }
