@@ -3,11 +3,13 @@ package pl.kl.companycarfleetmanagementsystem.trip;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.kl.companycarfleetmanagementsystem.car.Car;
+import pl.kl.companycarfleetmanagementsystem.refueling.Refueling;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -33,7 +35,9 @@ public class Trip {
     @Min(0)
     private Integer returnMeterStatus;
     private String comments;
-    @NotNull(message = "Car id cannot be blank")
+    @NotNull(message = "Car is necessary")
     @ManyToOne
     private Car car;
+    @OneToMany(mappedBy = "trip")
+    private Set<Refueling> refuelings;
 }

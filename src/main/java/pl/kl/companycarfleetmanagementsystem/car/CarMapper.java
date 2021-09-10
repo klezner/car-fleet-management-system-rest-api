@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CarMapper {
+
     public CarResponse mapCarToCarResponse(Car car) {
 
         return CarResponse.builder()

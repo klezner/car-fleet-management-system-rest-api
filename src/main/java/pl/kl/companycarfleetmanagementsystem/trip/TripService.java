@@ -76,4 +76,10 @@ public class TripService {
 
         return tripRepository.save(trip);
     }
+
+    public Trip fetchTripById(Long id) {
+
+        return tripRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Trip with id: " + id + " not found"));
+    }
 }
