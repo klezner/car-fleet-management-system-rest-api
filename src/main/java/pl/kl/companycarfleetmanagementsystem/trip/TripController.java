@@ -20,7 +20,6 @@ public class TripController {
 
     @PostMapping
     public ResponseEntity<TripResponse> addTrip(@RequestBody @Valid CreateTripRequest request) {
-
         final Trip trip = tripService.createTrip(request);
 
         return ResponseEntity
@@ -44,8 +43,8 @@ public class TripController {
                             .collect(Collectors.toList()));
         }
     }
-  
-        @PutMapping
+
+    @PutMapping
     public ResponseEntity<TripResponse> updateTrip(@RequestBody @Valid UpdateTripRequest request) {
         final Trip trip = tripService.editTrip(request);
 

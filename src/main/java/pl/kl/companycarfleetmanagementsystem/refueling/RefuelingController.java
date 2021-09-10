@@ -44,4 +44,13 @@ public class RefuelingController {
                             .collect(Collectors.toList()));
         }
     }
+
+    @PutMapping
+    public final ResponseEntity<RefuelingResponse> updateRefueling(@RequestBody @Valid UpdateRefuelingRequest request) {
+        final Refueling refueling = refuelingService.editRefueling(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(refuelingMapper.mapRefuelingToRefuelingResponse(refueling));
+    }
 }

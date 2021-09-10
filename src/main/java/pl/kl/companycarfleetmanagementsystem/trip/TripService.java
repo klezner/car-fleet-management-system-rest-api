@@ -61,8 +61,7 @@ public class TripService {
         final Trip trip = tripRepository.findById(request.getId())
                 .orElseThrow(() -> new NoSuchElementException("Trip with id: " + request.getId() + "not found"));
 
-        final Car car = carRepository.findById(request.getCarId())
-                .orElseThrow(() -> new NoSuchElementException("Car with id: " + request.getCarId() + "not found"));
+        final Car car = carService.fetchCarById(request.getCarId());
 
         TripDateValidator.validateTripDateOnTripEdit(request.getDepartureDate(), request.getReturnDate());
         TripMeterStatusValidator.validateMeterStatusOnTripEdit(request.getDepartureMeterStatus(), request.getReturnMeterStatus());
