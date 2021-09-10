@@ -7,6 +7,8 @@ import pl.kl.companycarfleetmanagementsystem.trip.TripService;
 import pl.kl.companycarfleetmanagementsystem.validator.RefuelingDateValidator;
 import pl.kl.companycarfleetmanagementsystem.validator.RefuelingMeterStatusValidator;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RefuelingService {
@@ -29,5 +31,10 @@ public class RefuelingService {
                 .build();
 
         return refuelingRepository.save(refueling);
+    }
+
+    public List<Refueling> fetchAllRefuelings() {
+
+        return refuelingRepository.findAll();
     }
 }
