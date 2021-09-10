@@ -43,4 +43,13 @@ public class CompanyController {
                             .collect(Collectors.toList()));
         }
     }
+
+    @PutMapping
+    public ResponseEntity<CompanyResponse> updateCompany(@RequestBody @Valid UpdateCompanyRequest request) {
+        final Company company = companyService.editCompany(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(companyMapper.mapCompanyToCompanyManager(company));
+    }
 }
