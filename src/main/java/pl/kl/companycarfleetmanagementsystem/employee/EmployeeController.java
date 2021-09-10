@@ -43,4 +43,13 @@ public class EmployeeController {
                             .collect(Collectors.toList()));
         }
     }
+
+    @PutMapping
+    public ResponseEntity<EmployeeResponse> updateEmployee(@RequestBody @Valid UpdateEmployeeRequest request) {
+        final Employee employee = employeeService.editEmployee(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(employeeMapper.mapEmployeeToEmployeeResponse(employee));
+    }
 }

@@ -2,6 +2,7 @@ package pl.kl.companycarfleetmanagementsystem.refueling;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.kl.companycarfleetmanagementsystem.trip.Trip;
 import pl.kl.companycarfleetmanagementsystem.trip.TripService;
 import pl.kl.companycarfleetmanagementsystem.validator.RefuelingDateValidator;
@@ -39,6 +40,7 @@ public class RefuelingService {
         return refuelingRepository.findAll();
     }
 
+    @Transactional
     public Refueling editRefueling(UpdateRefuelingRequest request) {
         final Refueling refueling = refuelingRepository.findById(request.getId())
                 .orElseThrow(() -> new NoSuchElementException("Refueling with id: " + request.getId() + " not found"));

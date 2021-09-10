@@ -2,6 +2,7 @@ package pl.kl.companycarfleetmanagementsystem.trip;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.kl.companycarfleetmanagementsystem.car.Car;
 import pl.kl.companycarfleetmanagementsystem.car.CarService;
 import pl.kl.companycarfleetmanagementsystem.validator.TripDateValidator;
@@ -55,6 +56,7 @@ public class TripService {
         return tripRepository.findAll();
     }
 
+    @Transactional
     public Trip editTrip(UpdateTripRequest request) {
         final Trip trip = tripRepository.findById(request.getId())
                 .orElseThrow(() -> new NoSuchElementException("Trip with id: " + request.getId() + "not found"));
