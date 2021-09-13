@@ -1,12 +1,11 @@
 package pl.kl.companycarfleetmanagementsystem.company;
 
 import lombok.*;
+import pl.kl.companycarfleetmanagementsystem.department.Department;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -21,4 +20,6 @@ public class Company {
     private Long id;
     @NotBlank(message = "Company name cannot be blank")
     private String name;
+    @OneToMany(mappedBy = "company")
+    private Set<Department> departments;
 }
