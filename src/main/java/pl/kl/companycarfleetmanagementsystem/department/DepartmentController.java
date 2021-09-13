@@ -3,12 +3,12 @@ package pl.kl.companycarfleetmanagementsystem.department;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +25,22 @@ public class DepartmentController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(departmentMapper.mapDepartmentToDepartmentResponse(department));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DepartmentResponse>> getAllDepartments() {
+        final List<Department> departments = departmentService.fetchAllDepartments();
+
+        if (departments.size() == 0) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(departments.stream()
+                            .map(departmentMapper::mapDepartmentToDepartmentResponse)
+                            .collect(Collectors.toList()));
+        }
     }
 }
