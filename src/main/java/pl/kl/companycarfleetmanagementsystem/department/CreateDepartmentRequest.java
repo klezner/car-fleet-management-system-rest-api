@@ -13,6 +13,6 @@ public class CreateDepartmentRequest {
     @NotBlank(message = "Department abbreviation cannot be blank")
     private String abbreviation;
     private String comment;
-    @NotNull
+    @NotNull(message = "Company id cannot be blank")
     private Long companyId;
 }

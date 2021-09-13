@@ -2,10 +2,12 @@ package pl.kl.companycarfleetmanagementsystem.department;
 
 import lombok.*;
 import pl.kl.companycarfleetmanagementsystem.company.Company;
+import pl.kl.companycarfleetmanagementsystem.employee.Employee;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -26,4 +28,6 @@ public class Department {
     @NotNull(message = "Company is necessary")
     @ManyToOne
     private Company company;
+    @OneToMany(mappedBy = "department")
+    private Set<Employee> employees;
 }

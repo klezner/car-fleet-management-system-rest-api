@@ -48,4 +48,10 @@ public class DepartmentService {
 
         return departmentRepository.save(department);
     }
+
+    public Department fetchDepartmentById(Long id) {
+
+        return departmentRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Department with id: " + id + " not found"));
+    }
 }
