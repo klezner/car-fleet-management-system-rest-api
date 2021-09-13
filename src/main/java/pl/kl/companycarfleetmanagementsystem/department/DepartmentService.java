@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.kl.companycarfleetmanagementsystem.company.Company;
 import pl.kl.companycarfleetmanagementsystem.company.CompanyService;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class DepartmentService {
@@ -23,5 +25,10 @@ public class DepartmentService {
                 .build();
 
         return departmentRepository.save(department);
+    }
+
+    public List<Department> fetchAllDepartments() {
+
+        return departmentRepository.findAll();
     }
 }
