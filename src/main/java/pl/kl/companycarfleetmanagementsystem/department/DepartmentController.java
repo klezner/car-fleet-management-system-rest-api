@@ -43,4 +43,13 @@ public class DepartmentController {
                             .collect(Collectors.toList()));
         }
     }
+
+    @PutMapping
+    public ResponseEntity<DepartmentResponse> updateDepartment(@RequestBody @Valid UpdateDepartmentRequest request) {
+        final Department department = departmentService.editDepartment(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(departmentMapper.mapDepartmentToDepartmentResponse(department));
+    }
 }

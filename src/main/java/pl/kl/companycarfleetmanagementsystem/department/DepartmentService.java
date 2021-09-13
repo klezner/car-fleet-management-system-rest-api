@@ -2,10 +2,12 @@ package pl.kl.companycarfleetmanagementsystem.department;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.kl.companycarfleetmanagementsystem.company.Company;
 import pl.kl.companycarfleetmanagementsystem.company.CompanyService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +32,20 @@ public class DepartmentService {
     public List<Department> fetchAllDepartments() {
 
         return departmentRepository.findAll();
+    }
+
+    @Transactional
+    public Department editDepartment(UpdateDepartmentRequest request) {
+        final Department department = departmentRepository.findById(request.getId())
+                .orElseThrow(() -> new NoSuchElementException("Department with id: " + request.getId() + "not found"));
+
+        final Company company = companyService.fetchCompanyById(request.getCompanyId());
+
+        department.setName(request.getName());
+        department.setAbbreviation(request.getAbbreviation());
+        department.setComment(request.getComment());
+        department.setCompany(company);
+
+        return departmentRepository.save(department);
     }
 }
