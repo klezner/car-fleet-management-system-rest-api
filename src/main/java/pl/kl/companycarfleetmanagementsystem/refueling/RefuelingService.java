@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.kl.companycarfleetmanagementsystem.trip.Trip;
 import pl.kl.companycarfleetmanagementsystem.trip.TripService;
-import pl.kl.companycarfleetmanagementsystem.validator.RefuelingDateValidator;
-import pl.kl.companycarfleetmanagementsystem.validator.RefuelingMeterStatusValidator;
+import pl.kl.companycarfleetmanagementsystem.validator.DateValidator;
+import pl.kl.companycarfleetmanagementsystem.validator.MeterStatusValidator;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,8 +22,8 @@ public class RefuelingService {
 
         final Trip trip = tripService.fetchTripById(request.getTripId());
 
-        RefuelingDateValidator.validateRefuelingDate(request.getDate(), trip.getDepartureDate(), trip.getReturnDate());
-        RefuelingMeterStatusValidator.validateRefuelingMeterStatus(request.getMeterStatus(), trip.getDepartureMeterStatus(), trip.getReturnMeterStatus());
+        DateValidator.validateDateForTripDates(request.getDate(), trip.getDepartureDate(), trip.getReturnDate());
+        MeterStatusValidator.validateMeterStatusForTripDates(request.getMeterStatus(), trip.getDepartureMeterStatus(), trip.getReturnMeterStatus());
 
         final Refueling refueling = Refueling.builder()
                 .date(request.getDate())
@@ -47,8 +47,8 @@ public class RefuelingService {
 
         final Trip trip = tripService.fetchTripById(request.getTripId());
 
-        RefuelingDateValidator.validateRefuelingDate(request.getDate(), trip.getDepartureDate(), trip.getReturnDate());
-        RefuelingMeterStatusValidator.validateRefuelingMeterStatus(request.getMeterStatus(), trip.getDepartureMeterStatus(), trip.getReturnMeterStatus());
+        DateValidator.validateDateForTripDates(request.getDate(), trip.getDepartureDate(), trip.getReturnDate());
+        MeterStatusValidator.validateMeterStatusForTripDates(request.getMeterStatus(), trip.getDepartureMeterStatus(), trip.getReturnMeterStatus());
 
         refueling.setDate(request.getDate());
         refueling.setMeterStatus(request.getMeterStatus());

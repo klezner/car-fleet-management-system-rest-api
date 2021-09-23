@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import pl.kl.companycarfleetmanagementsystem.car.Car;
 import pl.kl.companycarfleetmanagementsystem.employee.Employee;
 import pl.kl.companycarfleetmanagementsystem.refueling.Refueling;
+import pl.kl.companycarfleetmanagementsystem.repair.Repair;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -44,4 +45,6 @@ public class Trip {
     @NotNull(message = "Employee is necessary")
     @ManyToOne
     private Employee employee;
+    @OneToMany(mappedBy = "trip")
+    private Set<Repair> repairs;
 }

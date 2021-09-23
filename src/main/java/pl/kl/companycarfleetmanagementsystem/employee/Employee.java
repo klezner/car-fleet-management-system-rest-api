@@ -20,7 +20,7 @@ public class Employee {
     private Long id;
     @NotBlank(message = "First name cannot be blank")
     private String firstName;
-    @NotBlank(message = "First name cannot be blank")
+    @NotBlank(message = "Last name cannot be blank")
     private String lastName;
     @OneToMany(mappedBy = "employee")
     private Set<Trip> trips;
