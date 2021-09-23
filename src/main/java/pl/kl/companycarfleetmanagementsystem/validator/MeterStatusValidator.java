@@ -1,8 +1,17 @@
 package pl.kl.companycarfleetmanagementsystem.validator;
 
+import pl.kl.companycarfleetmanagementsystem.exceptions.RefuelingMeterStatusException;
 import pl.kl.companycarfleetmanagementsystem.exceptions.TripMeterStatusException;
 
-public class TripMeterStatusValidator {
+public class MeterStatusValidator {
+
+    public static boolean validateMeterStatusForTripDates(Integer refuelingMeterStatus, Integer departureMeterStatus, Integer returnMeterStatus) {
+
+        if (refuelingMeterStatus < departureMeterStatus || refuelingMeterStatus > returnMeterStatus) {
+            throw new RefuelingMeterStatusException("Incorrect meter status. Meter status should be between: " + departureMeterStatus + " and " + returnMeterStatus);
+        }
+        return false;
+    }
 
     public static boolean validateMeterStatusOnTripCreate(Integer departureMeterStatus, Integer returnMeterStatus, Integer lastReturnMeterStatus) {
 

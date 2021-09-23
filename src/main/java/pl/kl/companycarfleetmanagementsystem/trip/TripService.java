@@ -7,8 +7,8 @@ import pl.kl.companycarfleetmanagementsystem.car.Car;
 import pl.kl.companycarfleetmanagementsystem.car.CarService;
 import pl.kl.companycarfleetmanagementsystem.employee.Employee;
 import pl.kl.companycarfleetmanagementsystem.employee.EmployeeService;
-import pl.kl.companycarfleetmanagementsystem.validator.TripDateValidator;
-import pl.kl.companycarfleetmanagementsystem.validator.TripMeterStatusValidator;
+import pl.kl.companycarfleetmanagementsystem.validator.DateValidator;
+import pl.kl.companycarfleetmanagementsystem.validator.MeterStatusValidator;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -40,8 +40,8 @@ public class TripService {
                 .max(Integer::compareTo)
                 .orElse(systemStartMeterStatus);
 
-        TripDateValidator.validateTripDateOnTripCreate(request.getDepartureDate(), request.getReturnDate(), lastReturnDate);
-        TripMeterStatusValidator.validateMeterStatusOnTripCreate(request.getDepartureMeterStatus(), request.getReturnMeterStatus(), lastReturnMeterStatus);
+        DateValidator.validateTripDateOnTripCreate(request.getDepartureDate(), request.getReturnDate(), lastReturnDate);
+        MeterStatusValidator.validateMeterStatusOnTripCreate(request.getDepartureMeterStatus(), request.getReturnMeterStatus(), lastReturnMeterStatus);
 
         final Trip trip = Trip.builder()
                 .departureDate(request.getDepartureDate())
@@ -68,8 +68,8 @@ public class TripService {
 
         final Car car = carService.fetchCarById(request.getCarId());
 
-        TripDateValidator.validateTripDateOnTripEdit(request.getDepartureDate(), request.getReturnDate());
-        TripMeterStatusValidator.validateMeterStatusOnTripEdit(request.getDepartureMeterStatus(), request.getReturnMeterStatus());
+        DateValidator.validateTripDateOnTripEdit(request.getDepartureDate(), request.getReturnDate());
+        MeterStatusValidator.validateMeterStatusOnTripEdit(request.getDepartureMeterStatus(), request.getReturnMeterStatus());
 
         trip.setDepartureDate(request.getDepartureDate());
         trip.setReturnDate(request.getReturnDate());

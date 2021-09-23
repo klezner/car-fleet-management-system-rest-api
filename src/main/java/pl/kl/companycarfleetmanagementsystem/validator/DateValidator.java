@@ -1,10 +1,26 @@
 package pl.kl.companycarfleetmanagementsystem.validator;
 
+import pl.kl.companycarfleetmanagementsystem.exceptions.RefuelingDateException;
+import pl.kl.companycarfleetmanagementsystem.exceptions.RepairDateException;
 import pl.kl.companycarfleetmanagementsystem.exceptions.TripDateException;
 
 import java.time.LocalDate;
 
-public class TripDateValidator {
+public class DateValidator {
+
+    public static boolean validateLeftAndPickupDatesForRepair(LocalDate leftDate, LocalDate pickupDate) {
+        if (leftDate.isAfter(pickupDate)) {
+            throw new RepairDateException("Incorrect dates. Pickup date should be after left date");
+        }
+        return true;
+    }
+
+    public static boolean validateDateForTripDates(LocalDate refuelingDate, LocalDate departureDate, LocalDate returnDate) {
+        if (refuelingDate.isBefore(departureDate) || refuelingDate.isAfter(returnDate)) {
+            throw new RefuelingDateException("Incorrect date. Date should be between: " + departureDate + " and " + returnDate);
+        }
+        return true;
+    }
 
     public static boolean validateTripDateOnTripCreate(LocalDate departureDate, LocalDate returnDate, LocalDate lastReturnDate) {
 

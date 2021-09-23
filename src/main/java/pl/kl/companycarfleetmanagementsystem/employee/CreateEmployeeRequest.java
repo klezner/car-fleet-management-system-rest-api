@@ -10,7 +10,7 @@ public class CreateEmployeeRequest {
 
     @NotBlank(message = "First name cannot be blank")
     private String firstName;
-    @NotBlank(message = "First name cannot be blank")
+    @NotBlank(message = "Last name cannot be blank")
     private String lastName;
     @NotNull(message = "Department id cannot be blank")
     private Long departmentId;
