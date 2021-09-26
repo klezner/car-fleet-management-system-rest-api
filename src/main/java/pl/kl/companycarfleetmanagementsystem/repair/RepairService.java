@@ -7,6 +7,8 @@ import pl.kl.companycarfleetmanagementsystem.trip.TripService;
 import pl.kl.companycarfleetmanagementsystem.validator.DateValidator;
 import pl.kl.companycarfleetmanagementsystem.validator.MeterStatusValidator;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class RepairService {
@@ -34,5 +36,10 @@ public class RepairService {
                 .build();
 
         return repairRepository.save(repair);
+    }
+
+    public List<Repair> fetchAllRepairs() {
+
+        return repairRepository.findAll();
     }
 }
