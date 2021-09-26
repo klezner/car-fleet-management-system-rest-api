@@ -3,12 +3,12 @@ package pl.kl.companycarfleetmanagementsystem.repair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,5 +26,22 @@ public class RepairController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(repairMapper.mapRepairToRepairResponse(repair));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<RepairResponse>> getAllRepairs() {
+        final List<Repair> repairs = repairService.fetchAllRepairs();
+
+        if (repairs.size() == 0) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(repairs.stream()
+                            .map(repairMapper::mapRepairToRepairResponse)
+                            .collect(Collectors.toList()));
+        }
     }
 }
