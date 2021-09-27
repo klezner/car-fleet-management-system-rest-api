@@ -3,6 +3,7 @@ package pl.kl.companycarfleetmanagementsystem.repair;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ public class CreateRepairRequest {
     @NotNull(message = "Repair invoice dater cannot be blank")
     private LocalDate invoiceDate;
     @NotNull(message = "Repair cost cannot be blank")
+    @Min(0)
     private Double repairCost;
     @NotNull(message = "Pickup date at the workshop date cannot be blank")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

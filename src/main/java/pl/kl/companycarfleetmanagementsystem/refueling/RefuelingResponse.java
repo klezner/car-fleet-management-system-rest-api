@@ -13,5 +13,7 @@ public class RefuelingResponse {
     private Long id;
     private LocalDate date;
     private Integer meterStatus;
+    private Double fuelAmount;
+    private Double refuelingCost;
     private TripResponse trip;
 }

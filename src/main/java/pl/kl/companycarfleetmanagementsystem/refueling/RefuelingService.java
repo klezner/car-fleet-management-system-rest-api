@@ -29,6 +29,7 @@ public class RefuelingService {
                 .date(request.getDate())
                 .meterStatus(request.getMeterStatus())
                 .fuelAmount(request.getFuelAmount())
+                .refuelingCost(request.getRefuelingCost())
                 .trip(trip)
                 .build();
 
@@ -53,6 +54,7 @@ public class RefuelingService {
         refueling.setDate(request.getDate());
         refueling.setMeterStatus(request.getMeterStatus());
         refueling.setFuelAmount(request.getFuelAmount());
+        refueling.setRefuelingCost(request.getRefuelingCost());
         refueling.setTrip(trip);
 
         return refuelingRepository.save(refueling);
