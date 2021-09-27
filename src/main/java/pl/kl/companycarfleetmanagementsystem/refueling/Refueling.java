@@ -28,6 +28,9 @@ public class Refueling {
     @NotNull(message = "Amount of fuel refueled cannot be blank")
     @Min(0)
     private Double fuelAmount;
+    @NotNull(message = "Refueling cost cannot be blank")
+    @Min(0)
+    private Double refuelingCost;
     @NotNull(message = "Trip is necessary")
     @ManyToOne
     private Trip trip;

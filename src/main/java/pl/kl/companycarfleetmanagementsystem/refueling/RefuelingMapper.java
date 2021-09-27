@@ -16,6 +16,8 @@ public class RefuelingMapper {
                 .id(refueling.getId())
                 .date(refueling.getDate())
                 .meterStatus(refueling.getMeterStatus())
+                .fuelAmount(refueling.getFuelAmount())
+                .refuelingCost(refueling.getRefuelingCost())
                 .trip(tripMapper.mapTripToTripResponse(refueling.getTrip()))
                 .build();
     }
