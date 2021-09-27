@@ -44,4 +44,13 @@ public class RepairController {
                             .collect(Collectors.toList()));
         }
     }
+
+    @PutMapping
+    public ResponseEntity<RepairResponse> updateRepair(@RequestBody @Valid UpdateRepairRequest request) {
+        final Repair repair = repairService.editRepair(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(repairMapper.mapRepairToRepairResponse(repair));
+    }
 }
