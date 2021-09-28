@@ -3,6 +3,8 @@ package pl.kl.companycarfleetmanagementsystem.carworkshop;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CarWorkshopService {
@@ -20,5 +22,10 @@ public class CarWorkshopService {
                 .build();
 
         return carWorkshopRepository.save(carWorkshop);
+    }
+
+    public List<CarWorkshop> fetchAllCarWorkshops() {
+
+        return carWorkshopRepository.findAll();
     }
 }
