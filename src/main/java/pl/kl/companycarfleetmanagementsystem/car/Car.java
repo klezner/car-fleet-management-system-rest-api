@@ -2,6 +2,7 @@ package pl.kl.companycarfleetmanagementsystem.car;
 
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
+import pl.kl.companycarfleetmanagementsystem.fleetcard.FleetCard;
 import pl.kl.companycarfleetmanagementsystem.trip.Trip;
 
 import javax.persistence.*;
@@ -38,4 +39,6 @@ public class Car {
     private Integer productionYear;
     @OneToMany(mappedBy = "car")
     private Set<Trip> trips;
+    @OneToOne(mappedBy = "car")
+    private FleetCard fleetCard;
 }
