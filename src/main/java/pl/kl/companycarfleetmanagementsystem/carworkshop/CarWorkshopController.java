@@ -44,4 +44,13 @@ public class CarWorkshopController {
                             .collect(Collectors.toList()));
         }
     }
+
+    @PutMapping
+    public ResponseEntity<CarWorkshopResponse> updateCarWorkshops(@RequestBody @Valid UpdateCarWorkshopRequest request) {
+        final CarWorkshop carWorkshop = carWorkshopService.editCarWorkshop(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(carWorkshopMapper.mapCarWorkshopToCarWorkshopResponse(carWorkshop));
+    }
 }
