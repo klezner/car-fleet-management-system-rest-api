@@ -49,8 +49,6 @@ public class FleetCardController {
     public ResponseEntity<FleetCardResponse> updateFleetCard(@RequestBody @Valid UpdateFleetCardRequest request) {
         final FleetCard fleetCard = fleetCardService.editFleetCard(request);
 
-        System.out.println("abc");
-
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(fleetCardMapper.mapFleetCardToFleetCardResponse(fleetCard));
