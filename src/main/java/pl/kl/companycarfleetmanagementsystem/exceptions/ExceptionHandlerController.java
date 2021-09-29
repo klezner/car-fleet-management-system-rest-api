@@ -94,4 +94,38 @@ public class ExceptionHandlerController {
                         .path("/refueling")
                         .build());
     }
+
+    @ExceptionHandler(CarWithAssignedFleetCardException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CreatedExceptionResponse> handleCarWithAssignedFleetCardException(CarWithAssignedFleetCardException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(CreatedExceptionResponse.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                        .trace(e.getStackTrace().toString())
+                        .message(e.getMessage())
+                        .path("/fleetcard")
+                        .build());
+    }
+
+    @ExceptionHandler(FleetCardExpirationDateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CreatedExceptionResponse> handleFleetCardExpirationDateException(FleetCardExpirationDateException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(CreatedExceptionResponse.builder()
+                        .timestamp(LocalDateTime.now())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                        .trace(e.getStackTrace().toString())
+                        .message(e.getMessage())
+                        .path("/fleetcard")
+                        .build());
+    }
 }
