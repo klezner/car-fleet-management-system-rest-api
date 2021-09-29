@@ -22,10 +22,10 @@ public class TripService {
     private final CarService carService;
     private final TripRepository tripRepository;
 
-    public Trip createTrip(CreateTripRequest request) {
+    private final LocalDate SYSTEM_START_DATE = LocalDate.of(2000, 1, 1);
+    private final Integer SYSTEM_START_METER_STATUS = 0;
 
-        final LocalDate systemStartDate = LocalDate.of(2000, 1, 1);
-        final Integer systemStartMeterStatus = 0;
+    public Trip createTrip(CreateTripRequest request) {
 
         final Car car = carService.fetchCarById(request.getCarId());
         final Employee employee = employeeService.fetchEmployeeById(request.getEmployeeId());
@@ -33,12 +33,12 @@ public class TripService {
         final LocalDate lastReturnDate = car.getTrips().stream()
                 .map(Trip::getReturnDate)
                 .max(LocalDate::compareTo)
-                .orElse(systemStartDate);
+                .orElse(SYSTEM_START_DATE);
 
         final Integer lastReturnMeterStatus = car.getTrips().stream()
                 .map(Trip::getReturnMeterStatus)
                 .max(Integer::compareTo)
-                .orElse(systemStartMeterStatus);
+                .orElse(SYSTEM_START_METER_STATUS);
 
         DateValidator.validateTripDateOnTripCreate(request.getDepartureDate(), request.getReturnDate(), lastReturnDate);
         MeterStatusValidator.validateMeterStatusOnTripCreate(request.getDepartureMeterStatus(), request.getReturnMeterStatus(), lastReturnMeterStatus);
