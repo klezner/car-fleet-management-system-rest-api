@@ -2,6 +2,7 @@ package pl.kl.companycarfleetmanagementsystem.fleetcard;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.kl.companycarfleetmanagementsystem.car.Car;
 import pl.kl.companycarfleetmanagementsystem.car.CarService;
 import pl.kl.companycarfleetmanagementsystem.exceptions.CarWithAssignedFleetCardException;
@@ -9,6 +10,7 @@ import pl.kl.companycarfleetmanagementsystem.validator.DateValidator;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -17,9 +19,9 @@ public class FleetCardService {
     private final CarService carService;
     private final FleetCardRepository fleetCardRepository;
 
-    public FleetCard createFleetCard(CreateFleetCardRequest request) {
+    private final LocalDate SYSTEM_START_DATE = LocalDate.of(2000, 1, 1);
 
-        final LocalDate systemStartDate = LocalDate.of(2000, 1, 1);
+    public FleetCard createFleetCard(CreateFleetCardRequest request) {
 
         final Car car = carService.fetchCarById(request.getCarId());
 
@@ -27,7 +29,7 @@ public class FleetCardService {
             throw new CarWithAssignedFleetCardException("Car with id: " + request.getCarId() + " already has assigned fleet card");
         }
 
-        DateValidator.validateFleetCardExpirationDate(request.getExpirationDate(), systemStartDate);
+        DateValidator.validateFleetCardExpirationDate(request.getExpirationDate(), SYSTEM_START_DATE);
 
         final FleetCard fleetCard = FleetCard.builder()
                 .number(request.getNumber())
@@ -42,5 +44,23 @@ public class FleetCardService {
     public List<FleetCard> fetchAllFleetCards() {
 
         return fleetCardRepository.findAll();
+    }
+
+    @Transactional
+    public FleetCard editFleetCard(UpdateFleetCardRequest request) {
+
+        final Car car = carService.fetchCarById(request.getCarId());
+
+        DateValidator.validateFleetCardExpirationDate(request.getExpirationDate(), SYSTEM_START_DATE);
+
+        final FleetCard fleetCard = fleetCardRepository.findById(request.getId())
+                .orElseThrow(() -> new NoSuchElementException("Fleet card with id: " + request.getId() + " not found"));
+
+        fleetCard.setNumber(request.getNumber());
+        fleetCard.setExpirationDate(request.getExpirationDate());
+        fleetCard.setType(request.getType());
+        fleetCard.setCar(car);
+
+        return fleetCardRepository.save(fleetCard);
     }
 }

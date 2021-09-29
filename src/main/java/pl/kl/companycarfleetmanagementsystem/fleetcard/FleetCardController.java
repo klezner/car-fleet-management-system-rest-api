@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.kl.companycarfleetmanagementsystem.car.CarService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/fleetcard")
 public class FleetCardController {
 
-    private final CarService carService;
     private final FleetCardMapper fleetCardMapper;
     private final FleetCardService fleetCardService;
 
@@ -45,5 +43,16 @@ public class FleetCardController {
                             .map(fleetCardMapper::mapFleetCardToFleetCardResponse)
                             .collect(Collectors.toList()));
         }
+    }
+
+    @PutMapping
+    public ResponseEntity<FleetCardResponse> updateFleetCard(@RequestBody @Valid UpdateFleetCardRequest request) {
+        final FleetCard fleetCard = fleetCardService.editFleetCard(request);
+
+        System.out.println("abc");
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(fleetCardMapper.mapFleetCardToFleetCardResponse(fleetCard));
     }
 }
