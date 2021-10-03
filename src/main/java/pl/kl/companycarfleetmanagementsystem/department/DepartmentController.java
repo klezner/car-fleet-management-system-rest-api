@@ -1,5 +1,7 @@
 package pl.kl.companycarfleetmanagementsystem.department;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +15,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/department")
+@Api(value = "Department Controller")
 public class DepartmentController {
 
     private final DepartmentMapper departmentMapper;
     private final DepartmentService departmentService;
 
     @PostMapping
+    @ApiOperation(value = "Add new department", notes = "Allows you to add a new department in the form of a json request")
     public ResponseEntity<DepartmentResponse> addDepartment(@RequestBody @Valid CreateDepartmentRequest request) {
         final Department department = departmentService.createDepartment(request);
 
@@ -28,6 +32,7 @@ public class DepartmentController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Get all departments", notes = "Allows you to get a list of all departments")
     public ResponseEntity<List<DepartmentResponse>> getAllDepartments() {
         final List<Department> departments = departmentService.fetchAllDepartments();
 
@@ -45,6 +50,7 @@ public class DepartmentController {
     }
 
     @PutMapping
+    @ApiOperation(value = "Update department", notes = "Allows you to update a department in the form of a json request")
     public ResponseEntity<DepartmentResponse> updateDepartment(@RequestBody @Valid UpdateDepartmentRequest request) {
         final Department department = departmentService.editDepartment(request);
 

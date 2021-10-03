@@ -1,5 +1,7 @@
 package pl.kl.companycarfleetmanagementsystem.repair;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +15,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "repair")
+@Api(value = "Repair Controller")
 public class RepairController {
 
     private final RepairMapper repairMapper;
     private final RepairService repairService;
 
     @PostMapping
+    @ApiOperation(value = "Add new repair", notes = "Allows you to add a new repair in the form of a json request")
     public ResponseEntity<RepairResponse> addRepair(@RequestBody @Valid CreateRepairRequest request) {
 
         final Repair repair = repairService.createRepair(request);
@@ -29,6 +33,7 @@ public class RepairController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Get all repairs", notes = "Allows you to get a list of all repairs")
     public ResponseEntity<List<RepairResponse>> getAllRepairs() {
         final List<Repair> repairs = repairService.fetchAllRepairs();
 
@@ -46,6 +51,7 @@ public class RepairController {
     }
 
     @PutMapping
+    @ApiOperation(value = "Update repair", notes = "Allows you to update a repair in the form of a json request")
     public ResponseEntity<RepairResponse> updateRepair(@RequestBody @Valid UpdateRepairRequest request) {
         final Repair repair = repairService.editRepair(request);
 

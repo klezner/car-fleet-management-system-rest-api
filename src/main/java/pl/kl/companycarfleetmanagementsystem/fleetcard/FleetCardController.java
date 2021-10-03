@@ -1,5 +1,7 @@
 package pl.kl.companycarfleetmanagementsystem.fleetcard;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +15,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/fleetcard")
+@Api(value = "Fleet card Controller")
 public class FleetCardController {
 
     private final FleetCardMapper fleetCardMapper;
     private final FleetCardService fleetCardService;
 
     @PostMapping
+    @ApiOperation(value = "Add new fleet card", notes = "Allows you to add a new fleet card in the form of a json request")
     public ResponseEntity<FleetCardResponse> addFleetCard(@RequestBody @Valid CreateFleetCardRequest request) {
 
         final FleetCard fleetCard = fleetCardService.createFleetCard(request);
@@ -29,6 +33,7 @@ public class FleetCardController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Get all fleet cards", notes = "Allows you to get a list of all fleet cards")
     public ResponseEntity<List<FleetCardResponse>> getAllFleetCards() {
         final List<FleetCard> fleetCards = fleetCardService.fetchAllFleetCards();
 
@@ -46,6 +51,7 @@ public class FleetCardController {
     }
 
     @PutMapping
+    @ApiOperation(value = "Update fleet card", notes = "Allows you to update a fleet card in the form of a json request")
     public ResponseEntity<FleetCardResponse> updateFleetCard(@RequestBody @Valid UpdateFleetCardRequest request) {
         final FleetCard fleetCard = fleetCardService.editFleetCard(request);
 
