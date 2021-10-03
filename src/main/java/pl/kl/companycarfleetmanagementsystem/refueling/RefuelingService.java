@@ -59,4 +59,10 @@ public class RefuelingService {
 
         return refuelingRepository.save(refueling);
     }
+
+    public Refueling fetchRefuelingById(Long id) {
+
+        return refuelingRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Refueling with id: " + id + " not found"));
+    }
 }

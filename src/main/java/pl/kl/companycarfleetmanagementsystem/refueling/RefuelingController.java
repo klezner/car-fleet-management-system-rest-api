@@ -21,7 +21,7 @@ public class RefuelingController {
     private final RefuelingMapper refuelingMapper;
     private final RefuelingService refuelingService;
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     @ApiOperation(value = "Add new refueling", notes = "Allows you to add a new refueling in the form of a json request")
     public ResponseEntity<RefuelingResponse> addRefueling(@RequestBody @Valid CreateRefuelingRequest request) {
 
@@ -32,7 +32,7 @@ public class RefuelingController {
                 .body(refuelingMapper.mapRefuelingToRefuelingResponse(refueling));
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     @ApiOperation(value = "Get all refuelings", notes = "Allows you to get a list of all refuelings")
     public ResponseEntity<List<RefuelingResponse>> getAllRefuelings() {
         final List<Refueling> refuelings = refuelingService.fetchAllRefuelings();
@@ -50,13 +50,24 @@ public class RefuelingController {
         }
     }
 
-    @PutMapping
+    @PutMapping(produces = "application/json")
     @ApiOperation(value = "Update refueling", notes = "Allows you to update a refueling in the form of a json request")
-    public final ResponseEntity<RefuelingResponse> updateRefueling(@RequestBody @Valid UpdateRefuelingRequest request) {
+    public ResponseEntity<RefuelingResponse> updateRefueling(@RequestBody @Valid UpdateRefuelingRequest request) {
         final Refueling refueling = refuelingService.editRefueling(request);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(refuelingMapper.mapRefuelingToRefuelingResponse(refueling));
     }
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    @ApiOperation(value = "Get refueling by id", notes = "Allows you to get a refueling by id")
+    public ResponseEntity<RefuelingResponse> getRefuelingById(@PathVariable Long id) {
+        final Refueling refueling = refuelingService.fetchRefuelingById(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(refuelingMapper.mapRefuelingToRefuelingResponse(refueling));
+    }
+
 }
