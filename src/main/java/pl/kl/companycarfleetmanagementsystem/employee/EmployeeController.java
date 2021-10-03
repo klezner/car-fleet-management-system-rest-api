@@ -21,7 +21,7 @@ public class EmployeeController {
     private final EmployeeMapper employeeMapper;
     private final EmployeeService employeeService;
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     @ApiOperation(value = "Add new employee", notes = "Allows you to add a new employee in the form of a json request")
     public ResponseEntity<EmployeeResponse> addEmployee(@RequestBody @Valid CreateEmployeeRequest request) {
         final Employee employee = employeeService.createEmployee(request);
@@ -31,7 +31,7 @@ public class EmployeeController {
                 .body(employeeMapper.mapEmployeeToEmployeeResponse(employee));
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     @ApiOperation(value = "Get all employees", notes = "Allows you to get a list of all employees")
     public ResponseEntity<List<EmployeeResponse>> getAllEmployees() {
         final List<Employee> employees = employeeService.fetchAllEmployees();
@@ -49,10 +49,20 @@ public class EmployeeController {
         }
     }
 
-    @PutMapping
+    @PutMapping(produces = "application/json")
     @ApiOperation(value = "Update employee", notes = "Allows you to update an employee in the form of a json request")
     public ResponseEntity<EmployeeResponse> updateEmployee(@RequestBody @Valid UpdateEmployeeRequest request) {
         final Employee employee = employeeService.editEmployee(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(employeeMapper.mapEmployeeToEmployeeResponse(employee));
+    }
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    @ApiOperation(value = "Get employee by id", notes = "Allows you to get an employee by id")
+    public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable Long id) {
+        final Employee employee = employeeService.fetchEmployeeById(id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
