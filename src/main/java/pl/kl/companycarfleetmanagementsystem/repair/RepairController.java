@@ -21,7 +21,7 @@ public class RepairController {
     private final RepairMapper repairMapper;
     private final RepairService repairService;
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     @ApiOperation(value = "Add new repair", notes = "Allows you to add a new repair in the form of a json request")
     public ResponseEntity<RepairResponse> addRepair(@RequestBody @Valid CreateRepairRequest request) {
 
@@ -32,7 +32,7 @@ public class RepairController {
                 .body(repairMapper.mapRepairToRepairResponse(repair));
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     @ApiOperation(value = "Get all repairs", notes = "Allows you to get a list of all repairs")
     public ResponseEntity<List<RepairResponse>> getAllRepairs() {
         final List<Repair> repairs = repairService.fetchAllRepairs();
@@ -50,10 +50,20 @@ public class RepairController {
         }
     }
 
-    @PutMapping
+    @PutMapping(produces = "application/json")
     @ApiOperation(value = "Update repair", notes = "Allows you to update a repair in the form of a json request")
     public ResponseEntity<RepairResponse> updateRepair(@RequestBody @Valid UpdateRepairRequest request) {
         final Repair repair = repairService.editRepair(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(repairMapper.mapRepairToRepairResponse(repair));
+    }
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    @ApiOperation(value = "Get repair by id", notes = "Allows you to get repair by id")
+    public ResponseEntity<RepairResponse> getRepairById(@PathVariable Long id) {
+        final Repair repair = repairService.fetchRepairById(id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
