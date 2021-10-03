@@ -1,5 +1,7 @@
 package pl.kl.companycarfleetmanagementsystem.car;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +15,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/car")
+@Api(value = "Car Controller")
 public class CarController {
 
     private final CarMapper carMapper;
     private final CarService carService;
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
+    @ApiOperation(value = "Add new car", notes = "Allows you to add a new car in the form of a json request")
     public ResponseEntity<CarResponse> addCar(@RequestBody @Valid CreateCarRequest request) {
         final Car car = carService.createCar(request);
 
@@ -27,7 +31,8 @@ public class CarController {
                 .body(carMapper.mapCarToCarResponse(car));
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
+    @ApiOperation(value = "Get all cars", notes = "Allows you to get a list of all cars")
     public ResponseEntity<List<CarResponse>> getAllCars() {
         final List<Car> cars = carService.fetchAllCars();
 
@@ -44,7 +49,8 @@ public class CarController {
         }
     }
 
-    @PutMapping
+    @PutMapping(produces = "application/json")
+    @ApiOperation(value = "Update car", notes = "Allows you to update a car in the form of a json request")
     public ResponseEntity<CarResponse> updateCar(@RequestBody @Valid UpdateCarRequest request) {
         final Car car = carService.editCar(request);
 

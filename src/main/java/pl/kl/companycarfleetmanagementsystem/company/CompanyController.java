@@ -1,5 +1,7 @@
 package pl.kl.companycarfleetmanagementsystem.company;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +15,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/company")
+@Api(value = "Company Controller")
 public class CompanyController {
 
     private final CompanyMapper companyMapper;
     private final CompanyService companyService;
 
     @PostMapping
+    @ApiOperation(value = "Add new company", notes = "Allows you to add a new company in the form of a json request")
     public ResponseEntity<CompanyResponse> addCompany(@RequestBody @Valid CreateCompanyRequest request) {
         final Company company = companyService.createCompany(request);
 
@@ -28,6 +32,7 @@ public class CompanyController {
     }
 
     @GetMapping
+    @ApiOperation(value = "Get all companies", notes = "Allows you to get a list of all companies")
     public ResponseEntity<List<CompanyResponse>> getAllCompanies() {
         final List<Company> companies = companyService.fetchAllCompanies();
 
@@ -45,6 +50,7 @@ public class CompanyController {
     }
 
     @PutMapping
+    @ApiOperation(value = "Update company", notes = "Allows you to update a company in the form of a json request")
     public ResponseEntity<CompanyResponse> updateCompany(@RequestBody @Valid UpdateCompanyRequest request) {
         final Company company = companyService.editCompany(request);
 
