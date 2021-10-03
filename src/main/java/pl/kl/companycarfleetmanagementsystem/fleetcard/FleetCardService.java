@@ -63,4 +63,11 @@ public class FleetCardService {
 
         return fleetCardRepository.save(fleetCard);
     }
+
+    public FleetCard fetchFleetCardById(Long id) {
+
+        return fleetCardRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Fleet card with id: " + id + " not found"));
+
+    }
 }

@@ -21,7 +21,7 @@ public class FleetCardController {
     private final FleetCardMapper fleetCardMapper;
     private final FleetCardService fleetCardService;
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     @ApiOperation(value = "Add new fleet card", notes = "Allows you to add a new fleet card in the form of a json request")
     public ResponseEntity<FleetCardResponse> addFleetCard(@RequestBody @Valid CreateFleetCardRequest request) {
 
@@ -32,7 +32,7 @@ public class FleetCardController {
                 .body(fleetCardMapper.mapFleetCardToFleetCardResponse(fleetCard));
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     @ApiOperation(value = "Get all fleet cards", notes = "Allows you to get a list of all fleet cards")
     public ResponseEntity<List<FleetCardResponse>> getAllFleetCards() {
         final List<FleetCard> fleetCards = fleetCardService.fetchAllFleetCards();
@@ -50,10 +50,20 @@ public class FleetCardController {
         }
     }
 
-    @PutMapping
+    @PutMapping(produces = "application/json")
     @ApiOperation(value = "Update fleet card", notes = "Allows you to update a fleet card in the form of a json request")
     public ResponseEntity<FleetCardResponse> updateFleetCard(@RequestBody @Valid UpdateFleetCardRequest request) {
         final FleetCard fleetCard = fleetCardService.editFleetCard(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(fleetCardMapper.mapFleetCardToFleetCardResponse(fleetCard));
+    }
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    @ApiOperation(value = "Get fleet card by id", notes = "Allows you to get a fleet card by id")
+    public ResponseEntity<FleetCardResponse> getFleetCardById(@PathVariable Long id) {
+        final FleetCard fleetCard = fleetCardService.fetchFleetCardById(id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
