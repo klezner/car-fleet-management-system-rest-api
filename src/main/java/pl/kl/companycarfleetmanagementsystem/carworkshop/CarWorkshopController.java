@@ -21,7 +21,7 @@ public class CarWorkshopController {
     private final CarWorkshopMapper carWorkshopMapper;
     private final CarWorkshopService carWorkshopService;
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     @ApiOperation(value = "Add new car workshop", notes = "Allows you to add a new car workshop in the form of a json request")
     public ResponseEntity<CarWorkshopResponse> addCarWorkshop(@RequestBody @Valid CreateCarWorkshopRequest request) {
 
@@ -32,7 +32,7 @@ public class CarWorkshopController {
                 .body(carWorkshopMapper.mapCarWorkshopToCarWorkshopResponse(carWorkshop));
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     @ApiOperation(value = "Get all car workshops", notes = "Allows you to get a list of all car workshops")
     public ResponseEntity<List<CarWorkshopResponse>> getAllCarWorkshops() {
         final List<CarWorkshop> carWorkshops = carWorkshopService.fetchAllCarWorkshops();
@@ -50,10 +50,20 @@ public class CarWorkshopController {
         }
     }
 
-    @PutMapping
+    @PutMapping(produces = "application/json")
     @ApiOperation(value = "Update car workshop", notes = "Allows you to update a car in the form of a json request")
     public ResponseEntity<CarWorkshopResponse> updateCarWorkshops(@RequestBody @Valid UpdateCarWorkshopRequest request) {
         final CarWorkshop carWorkshop = carWorkshopService.editCarWorkshop(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(carWorkshopMapper.mapCarWorkshopToCarWorkshopResponse(carWorkshop));
+    }
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    @ApiOperation(value = "Get car workshop by id", notes = "Allows you to get a car workshop by id")
+    public ResponseEntity<CarWorkshopResponse> getCarWorkshopById(@PathVariable Long id) {
+        final CarWorkshop carWorkshop = carWorkshopService.fetchCarWorkshopById(id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

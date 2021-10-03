@@ -44,4 +44,10 @@ public class CarWorkshopService {
 
         return carWorkshopRepository.save(carWorkshop);
     }
+
+    public CarWorkshop fetchCarWorkshopById(Long id) {
+
+        return carWorkshopRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Car workshop with id: " + id + " not found"));
+    }
 }
