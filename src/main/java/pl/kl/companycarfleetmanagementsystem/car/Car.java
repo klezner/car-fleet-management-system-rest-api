@@ -28,7 +28,7 @@ public class Car {
     @NotBlank(message = "Car model cannot be blank")
     private String model;
     @NotBlank(message = "Car registration number cannot be blank")
-    @Length(min = 3, max = 7, message = "Incorrect car registration number length")
+    @Length(min = 3, max = 8, message = "Incorrect car registration number length")
     private String registrationNumber;
     @NotBlank(message = "Car vin number cannot be blank")
     @Length(min = 17, max = 17, message = "Incorrect car vin number length")
