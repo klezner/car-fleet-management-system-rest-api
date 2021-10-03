@@ -58,4 +58,14 @@ public class CarController {
                 .status(HttpStatus.OK)
                 .body(carMapper.mapCarToCarResponse(car));
     }
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    @ApiOperation(value = "Get car by id", notes = "Allows you to get a car by id")
+    public ResponseEntity<CarResponse> getCarById(@PathVariable Long id) {
+        final Car car = carService.fetchCarById(id);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(carMapper.mapCarToCarResponse(car));
+    }
 }

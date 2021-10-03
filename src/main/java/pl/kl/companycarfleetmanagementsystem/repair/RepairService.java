@@ -67,4 +67,10 @@ public class RepairService {
 
         return repairRepository.save(repair);
     }
+
+    public Repair fetchRepairById(Long id) {
+
+        return repairRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Repair with id: " + id + " not found"));
+    }
 }

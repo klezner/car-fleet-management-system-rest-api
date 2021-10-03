@@ -21,7 +21,7 @@ public class TripController {
     private final TripMapper tripMapper;
     private final TripService tripService;
 
-    @PostMapping
+    @PostMapping(produces = "application/json")
     @ApiOperation(value = "Add new trip", notes = "Allows you to add a new trip in the form of a json request")
     public ResponseEntity<TripResponse> addTrip(@RequestBody @Valid CreateTripRequest request) {
         final Trip trip = tripService.createTrip(request);
@@ -31,7 +31,7 @@ public class TripController {
                 .body(tripMapper.mapTripToTripResponse(trip));
     }
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     @ApiOperation(value = "Get all trips", notes = "Allows you to get a list of all trips")
     public ResponseEntity<List<TripResponse>> getAllTrips() {
         final List<Trip> trips = tripService.fetchAllTrips();
@@ -49,10 +49,20 @@ public class TripController {
         }
     }
 
-    @PutMapping
+    @PutMapping(produces = "application/json")
     @ApiOperation(value = "Update trip", notes = "Allows you to update a trip in the form of a json request")
     public ResponseEntity<TripResponse> updateTrip(@RequestBody @Valid UpdateTripRequest request) {
         final Trip trip = tripService.editTrip(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(tripMapper.mapTripToTripResponse(trip));
+    }
+
+    @GetMapping(path = "/{id}", produces = "application/json")
+    @ApiOperation(value = "Get trip by id", notes = "Allows you to get a trip by id")
+    public ResponseEntity<TripResponse> getTriById(@PathVariable Long id) {
+        final Trip trip = tripService.fetchTripById(id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
