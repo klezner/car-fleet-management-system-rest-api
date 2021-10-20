@@ -2,6 +2,7 @@ package pl.kl.companycarfleetmanagementsystem.repair;
 
 import lombok.Builder;
 import lombok.Getter;
+import pl.kl.companycarfleetmanagementsystem.carworkshop.CarWorkshopResponse;
 import pl.kl.companycarfleetmanagementsystem.trip.TripResponse;
 
 import java.time.LocalDate;
@@ -18,4 +19,5 @@ public class RepairResponse {
     private Double repairCost;
     private LocalDate pickupDate;
     private TripResponse trip;
+    private CarWorkshopResponse carWorkshop;
 }

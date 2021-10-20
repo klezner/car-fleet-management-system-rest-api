@@ -2,12 +2,14 @@ package pl.kl.companycarfleetmanagementsystem.repair;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import pl.kl.companycarfleetmanagementsystem.carworkshop.CarWorkshopMapper;
 import pl.kl.companycarfleetmanagementsystem.trip.TripMapper;
 
 @Component
 @RequiredArgsConstructor
 public class RepairMapper {
 
+    private final CarWorkshopMapper carWorkshopMapper;
     private final TripMapper tripMapper;
 
     public RepairResponse mapRepairToRepairResponse(Repair repair) {
@@ -21,6 +23,7 @@ public class RepairMapper {
                 .repairCost(repair.getRepairCost())
                 .pickupDate(repair.getPickupDate())
                 .trip(tripMapper.mapTripToTripResponse(repair.getTrip()))
+                .carWorkshop(carWorkshopMapper.mapCarWorkshopToCarWorkshopResponse(repair.getCarWorkshop()))
                 .build();
     }
 }

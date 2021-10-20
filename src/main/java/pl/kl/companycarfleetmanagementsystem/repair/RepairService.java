@@ -3,6 +3,8 @@ package pl.kl.companycarfleetmanagementsystem.repair;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.kl.companycarfleetmanagementsystem.carworkshop.CarWorkshop;
+import pl.kl.companycarfleetmanagementsystem.carworkshop.CarWorkshopService;
 import pl.kl.companycarfleetmanagementsystem.trip.Trip;
 import pl.kl.companycarfleetmanagementsystem.trip.TripService;
 import pl.kl.companycarfleetmanagementsystem.validator.DateValidator;
@@ -15,12 +17,15 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class RepairService {
 
+    private final CarWorkshopService carWorkshopService;
     private final TripService tripService;
     private final RepairRepository repairRepository;
 
     public Repair createRepair(CreateRepairRequest request) {
 
         final Trip trip = tripService.fetchTripById(request.getTripId());
+        final CarWorkshop carWorkshop = carWorkshopService.fetchCarWorkshopById(request.getCarWorkshopId());
+
 
         DateValidator.validateLeftAndPickupDatesForRepair(request.getLeftDate(), request.getPickupDate());
         DateValidator.validateDateForTripDates(request.getLeftDate(), trip.getDepartureDate(), trip.getReturnDate());
@@ -35,6 +40,7 @@ public class RepairService {
                 .repairCost(request.getRepairCost())
                 .pickupDate(request.getPickupDate())
                 .trip(trip)
+                .carWorkshop(carWorkshop)
                 .build();
 
         return repairRepository.save(repair);
@@ -51,6 +57,7 @@ public class RepairService {
                 .orElseThrow(() -> new NoSuchElementException("Repair with id: " + request.getId() + " not found"));
 
         final Trip trip = tripService.fetchTripById(request.getTripId());
+        final CarWorkshop carWorkshop = carWorkshopService.fetchCarWorkshopById(request.getCarWorkshopId());
 
         DateValidator.validateLeftAndPickupDatesForRepair(request.getLeftDate(), request.getPickupDate());
         DateValidator.validateDateForTripDates(request.getLeftDate(), trip.getDepartureDate(), trip.getReturnDate());
@@ -64,6 +71,7 @@ public class RepairService {
         repair.setRepairCost(request.getRepairCost());
         repair.setPickupDate(request.getPickupDate());
         repair.setTrip(trip);
+        repair.setCarWorkshop(carWorkshop);
 
         return repairRepository.save(repair);
     }

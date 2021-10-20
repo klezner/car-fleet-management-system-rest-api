@@ -2,6 +2,7 @@ package pl.kl.companycarfleetmanagementsystem.repair;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import pl.kl.companycarfleetmanagementsystem.carworkshop.CarWorkshop;
 import pl.kl.companycarfleetmanagementsystem.trip.Trip;
 
 import javax.persistence.*;
@@ -39,4 +40,7 @@ public class Repair {
     @NotNull(message = "Trip is necessary")
     @ManyToOne
     private Trip trip;
+    @NotNull(message = "Car workshop is necessary")
+    @ManyToOne
+    private CarWorkshop carWorkshop;
 }
