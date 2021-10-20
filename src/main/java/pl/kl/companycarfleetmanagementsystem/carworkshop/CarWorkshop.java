@@ -1,13 +1,12 @@
 package pl.kl.companycarfleetmanagementsystem.carworkshop;
 
 import lombok.*;
+import pl.kl.companycarfleetmanagementsystem.repair.Repair;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -31,4 +30,6 @@ public class CarWorkshop {
     private String street;
     @NotBlank(message = "Number of building cannot be blank")
     private String number;
+    @OneToMany(mappedBy = "carWorkshop")
+    private Set<Repair> repairs;
 }

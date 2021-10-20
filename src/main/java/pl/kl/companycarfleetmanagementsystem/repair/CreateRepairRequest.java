@@ -28,4 +28,6 @@ public class CreateRepairRequest {
     private LocalDate pickupDate;
     @NotNull(message = "Trip id cannot be blank")
     private Long tripId;
+    @NotNull(message = "Car workshop id cannot be blank")
+    private Long carWorkshopId;
 }
