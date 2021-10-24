@@ -81,4 +81,9 @@ public class RepairService {
         return repairRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Repair with id: " + id + " not found"));
     }
+
+    public List<Repair> fetchRepairsByCarWorkshopId(Long id) {
+
+        return repairRepository.getAllByCarWorkshopId(id);
+    }
 }
