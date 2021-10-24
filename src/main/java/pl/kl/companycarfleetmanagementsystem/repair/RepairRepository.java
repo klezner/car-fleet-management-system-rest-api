@@ -9,4 +9,6 @@ import java.util.List;
 public interface RepairRepository extends JpaRepository<Repair, Long> {
 
     List<Repair> getAllByCarWorkshopId(Long id);
+
+    List<Repair> getAllByTripId(Long id);
 }

@@ -86,4 +86,9 @@ public class RepairService {
 
         return repairRepository.getAllByCarWorkshopId(id);
     }
+
+    public List<Repair> fetchRepairsByTripId(Long id) {
+
+        return repairRepository.getAllByTripId(id);
+    }
 }
