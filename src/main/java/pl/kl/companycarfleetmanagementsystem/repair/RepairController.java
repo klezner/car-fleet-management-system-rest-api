@@ -69,4 +69,22 @@ public class RepairController {
                 .status(HttpStatus.OK)
                 .body(repairMapper.mapRepairToRepairResponse(repair));
     }
+
+    @GetMapping(path = "/carworkshop/{id}", produces = "application/json")
+    @ApiOperation(value = "Get repairs by car workshop id", notes = "Allows you to get repairs by car workshop id")
+    public ResponseEntity<List<RepairResponse>> getRepairsByCarWorkshopId(@PathVariable Long id) {
+        final List<Repair> repairs = repairService.fetchRepairsByCarWorkshopId(id);
+
+        if (repairs.size() == 0) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(repairs.stream()
+                            .map(repairMapper::mapRepairToRepairResponse)
+                            .collect(Collectors.toList()));
+        }
+    }
 }
