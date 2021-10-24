@@ -70,4 +70,21 @@ public class RefuelingController {
                 .body(refuelingMapper.mapRefuelingToRefuelingResponse(refueling));
     }
 
+    @GetMapping(path = "/trip/{id}", produces = "application/json")
+    @ApiOperation(value = "Get refuelings by trip id", notes = "Allows you to get refuelings by trip id")
+    public ResponseEntity<List<RefuelingResponse>> getRefuelingsByTripId(@PathVariable Long id) {
+        final List<Refueling> refuelings = refuelingService.fetchRefuelingsByTripId(id);
+
+        if (refuelings.size() == 0) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(refuelings.stream()
+                            .map(refuelingMapper::mapRefuelingToRefuelingResponse)
+                            .collect(Collectors.toList()));
+        }
+    }
 }

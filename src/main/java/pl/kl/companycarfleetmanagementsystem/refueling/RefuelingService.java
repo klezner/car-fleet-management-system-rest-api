@@ -65,4 +65,9 @@ public class RefuelingService {
         return refuelingRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Refueling with id: " + id + " not found"));
     }
+
+    public List<Refueling> fetchRefuelingsByTripId(Long id) {
+
+        return refuelingRepository.getAllByTripId(id);
+    }
 }
