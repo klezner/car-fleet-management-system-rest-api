@@ -87,4 +87,22 @@ public class RepairController {
                             .collect(Collectors.toList()));
         }
     }
+
+    @GetMapping(path = "/trip/{id}", produces = "application/json")
+    @ApiOperation(value = "Get repairs by trip id", notes = "Allows you to get repairs by trip id")
+    public ResponseEntity<List<RepairResponse>> getRepairsByTripId(@PathVariable Long id) {
+        final List<Repair> repairs = repairService.fetchRepairsByTripId(id);
+
+        if (repairs.size() == 0) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(repairs.stream()
+                            .map(repairMapper::mapRepairToRepairResponse)
+                            .collect(Collectors.toList()));
+        }
+    }
 }
