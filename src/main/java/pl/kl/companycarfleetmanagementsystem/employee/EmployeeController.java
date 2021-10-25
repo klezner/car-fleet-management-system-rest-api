@@ -68,4 +68,22 @@ public class EmployeeController {
                 .status(HttpStatus.OK)
                 .body(employeeMapper.mapEmployeeToEmployeeResponse(employee));
     }
+
+    @GetMapping(path = "/department/{id}", produces = "application/json")
+    @ApiOperation(value = "Get employees by department id", notes = "Allows you to get employees by department id")
+    public ResponseEntity<List<EmployeeResponse>> getEmployeesByDepartmentId(@PathVariable Long id) {
+        final List<Employee> employees = employeeService.fetchEmployeesByDepartmentId(id);
+
+        if (employees.size() == 0) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(employees.stream()
+                            .map(employeeMapper::mapEmployeeToEmployeeResponse)
+                            .collect(Collectors.toList()));
+        }
+    }
 }
