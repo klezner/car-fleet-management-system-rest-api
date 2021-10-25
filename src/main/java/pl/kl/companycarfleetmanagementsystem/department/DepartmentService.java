@@ -54,4 +54,9 @@ public class DepartmentService {
         return departmentRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Department with id: " + id + " not found"));
     }
+
+    public List<Department> fetchDepartmentsByCompanyId(Long id) {
+
+        return departmentRepository.getAllByCompanyId(id);
+    }
 }
