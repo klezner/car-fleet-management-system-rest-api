@@ -53,4 +53,9 @@ public class EmployeeService {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Employee with id: " + id + " not found"));
     }
+
+    public List<Employee> fetchEmployeesByDepartmentId(Long id) {
+
+        return employeeRepository.getAllByDepartmentId(id);
+    }
 }
