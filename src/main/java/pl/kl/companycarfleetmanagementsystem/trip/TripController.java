@@ -68,4 +68,22 @@ public class TripController {
                 .status(HttpStatus.OK)
                 .body(tripMapper.mapTripToTripResponse(trip));
     }
+
+    @GetMapping(path = "/car/{id}", produces = "application/json")
+    @ApiOperation(value = "Get trips by car id", notes = "Allows you to get trips by car id")
+    public ResponseEntity<List<TripResponse>> getTriBCarId(@PathVariable Long id) {
+        final List<Trip> trips = tripService.fetchTripsByCarId(id);
+
+        if (trips.size() == 0) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(trips.stream()
+                            .map(tripMapper::mapTripToTripResponse)
+                            .collect(Collectors.toList()));
+        }
+    }
 }

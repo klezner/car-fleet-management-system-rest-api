@@ -86,4 +86,9 @@ public class TripService {
         return tripRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Trip with id: " + id + " not found"));
     }
+
+    public List<Trip> fetchTripsByCarId(Long id) {
+
+        return tripRepository.getAllByCarId(id);
+    }
 }
