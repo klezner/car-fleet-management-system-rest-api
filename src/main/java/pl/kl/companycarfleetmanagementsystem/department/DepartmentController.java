@@ -68,4 +68,22 @@ public class DepartmentController {
                 .status(HttpStatus.OK)
                 .body(departmentMapper.mapDepartmentToDepartmentResponse(department));
     }
+
+    @GetMapping(path = "/company/{id}", produces = "application/json")
+    @ApiOperation(value = "Get departments by company id", notes = "Allows you to get departments by company id")
+    public ResponseEntity<List<DepartmentResponse>> getDepartmentsByCompanyId(@PathVariable Long id) {
+        final List<Department> departments = departmentService.fetchDepartmentsByCompanyId(id);
+
+        if (departments.size() == 0) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ArrayList<>());
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(departments.stream()
+                            .map(departmentMapper::mapDepartmentToDepartmentResponse)
+                            .collect(Collectors.toList()));
+        }
+    }
 }
