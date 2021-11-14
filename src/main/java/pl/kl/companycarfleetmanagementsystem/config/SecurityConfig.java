@@ -35,7 +35,8 @@ public class SecurityConfig {
 
             @Override
             protected void configure(HttpSecurity http) throws Exception {
-                http.authorizeRequests().anyRequest().permitAll();
+//                http.authorizeRequests().anyRequest().permitAll();
+                http.authorizeRequests().antMatchers("/**").permitAll();
             }
         };
     }
