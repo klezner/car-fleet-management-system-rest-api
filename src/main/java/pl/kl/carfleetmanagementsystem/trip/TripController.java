@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +23,8 @@ public class TripController {
     private final TripService tripService;
 
     @PostMapping(produces = "application/json")
-    @ApiOperation(value = "Add new trip", notes = "Allows you to add a new trip in the form of a json request")
+    @ApiOperation(value = "Add new trip", notes = "Allows you to add a new trip in the form of a json request. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<TripResponse> addTrip(@RequestBody @Valid CreateTripRequest request) {
         final Trip trip = tripService.createTrip(request);
 
@@ -32,7 +34,8 @@ public class TripController {
     }
 
     @GetMapping(produces = "application/json")
-    @ApiOperation(value = "Get all trips", notes = "Allows you to get a list of all trips")
+    @ApiOperation(value = "Get all trips", notes = "Allows you to get a list of all trips. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<TripResponse>> getAllTrips() {
         final List<Trip> trips = tripService.fetchAllTrips();
 
@@ -50,7 +53,8 @@ public class TripController {
     }
 
     @PutMapping(produces = "application/json")
-    @ApiOperation(value = "Update trip", notes = "Allows you to update a trip in the form of a json request")
+    @ApiOperation(value = "Update trip", notes = "Allows you to update a trip in the form of a json request. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<TripResponse> updateTrip(@RequestBody @Valid UpdateTripRequest request) {
         final Trip trip = tripService.editTrip(request);
 
@@ -60,7 +64,8 @@ public class TripController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    @ApiOperation(value = "Get trip by id", notes = "Allows you to get a trip by id")
+    @ApiOperation(value = "Get trip by id", notes = "Allows you to get a trip by id. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<TripResponse> getTriById(@PathVariable Long id) {
         final Trip trip = tripService.fetchTripById(id);
 
@@ -70,7 +75,8 @@ public class TripController {
     }
 
     @GetMapping(path = "/car/{id}", produces = "application/json")
-    @ApiOperation(value = "Get trips by car id", notes = "Allows you to get trips by car id")
+    @ApiOperation(value = "Get trips by car id", notes = "Allows you to get trips by car id. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<TripResponse>> getTriBCarId(@PathVariable Long id) {
         final List<Trip> trips = tripService.fetchTripsByCarId(id);
 
