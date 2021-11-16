@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>pl.kl</groupId>
-    <artifactId>companycarfleetmanagementsystem</artifactId>
+    <artifactId>carfleetmanagementsystem</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>CompanyCarFleetManagementSystem</name>
+    <name>CarFleetManagementSystemRestApi</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
