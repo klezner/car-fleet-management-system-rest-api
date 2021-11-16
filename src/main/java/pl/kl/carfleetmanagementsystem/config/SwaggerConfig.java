@@ -21,7 +21,7 @@ public class SwaggerConfig {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("pl.kl.companycarfleetmanagementsystem"))
+                .apis(RequestHandlerSelectors.basePackage("pl.kl.carfleetmanagementsystem"))
                 .paths(PathSelectors.regex("/.*"))
                 .build()
                 .apiInfo(apiInfo());
@@ -30,8 +30,8 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
 
         return new ApiInfoBuilder()
-                .title("Company Car Fleet Management System")
-                .description("Company Car Fleet Management System REST API for Web Application")
+                .title("Car Fleet Management System")
+                .description("Car Fleet Management System Rest Api for Web Application")
                 .contact(new Contact("Krzysztof Lezner", "http://https://github.com/klezner", "klezner@gmail.com"))
                 .license("License")
                 .licenseUrl("License Url")
