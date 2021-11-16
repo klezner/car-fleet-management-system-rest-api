@@ -1,4 +1,4 @@
-# Company Car Fleet Management System - REST API
+# Car Fleet Management System - REST API
 
 System for managing a fleet of cars in the company.
 
