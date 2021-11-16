@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +23,8 @@ public class RefuelingController {
     private final RefuelingService refuelingService;
 
     @PostMapping(produces = "application/json")
-    @ApiOperation(value = "Add new refueling", notes = "Allows you to add a new refueling in the form of a json request")
+    @ApiOperation(value = "Add new refueling", notes = "Allows you to add a new refueling in the form of a json request. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<RefuelingResponse> addRefueling(@RequestBody @Valid CreateRefuelingRequest request) {
 
         final Refueling refueling = refuelingService.createRefueling(request);
@@ -33,7 +35,8 @@ public class RefuelingController {
     }
 
     @GetMapping(produces = "application/json")
-    @ApiOperation(value = "Get all refuelings", notes = "Allows you to get a list of all refuelings")
+    @ApiOperation(value = "Get all refuelings", notes = "Allows you to get a list of all refuelings. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<RefuelingResponse>> getAllRefuelings() {
         final List<Refueling> refuelings = refuelingService.fetchAllRefuelings();
 
@@ -51,7 +54,8 @@ public class RefuelingController {
     }
 
     @PutMapping(produces = "application/json")
-    @ApiOperation(value = "Update refueling", notes = "Allows you to update a refueling in the form of a json request")
+    @ApiOperation(value = "Update refueling", notes = "Allows you to update a refueling in the form of a json request. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<RefuelingResponse> updateRefueling(@RequestBody @Valid UpdateRefuelingRequest request) {
         final Refueling refueling = refuelingService.editRefueling(request);
 
@@ -61,7 +65,8 @@ public class RefuelingController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    @ApiOperation(value = "Get refueling by id", notes = "Allows you to get a refueling by id")
+    @ApiOperation(value = "Get refueling by id", notes = "Allows you to get a refueling by id. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<RefuelingResponse> getRefuelingById(@PathVariable Long id) {
         final Refueling refueling = refuelingService.fetchRefuelingById(id);
 
@@ -71,7 +76,8 @@ public class RefuelingController {
     }
 
     @GetMapping(path = "/trip/{id}", produces = "application/json")
-    @ApiOperation(value = "Get refuelings by trip id", notes = "Allows you to get refuelings by trip id")
+    @ApiOperation(value = "Get refuelings by trip id", notes = "Allows you to get refuelings by trip id. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<RefuelingResponse>> getRefuelingsByTripId(@PathVariable Long id) {
         final List<Refueling> refuelings = refuelingService.fetchRefuelingsByTripId(id);
 
