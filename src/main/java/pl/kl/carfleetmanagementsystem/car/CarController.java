@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +23,8 @@ public class CarController {
     private final CarService carService;
 
     @PostMapping(produces = "application/json")
-    @ApiOperation(value = "Add new car", notes = "Allows you to add a new car in the form of a json request")
+    @ApiOperation(value = "Add new car", notes = "Allows you to add a new car in the form of a json request. Access with ADMIN role.")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarResponse> addCar(@RequestBody @Valid CreateCarRequest request) {
         final Car car = carService.createCar(request);
 
@@ -32,7 +34,8 @@ public class CarController {
     }
 
     @GetMapping(produces = "application/json")
-    @ApiOperation(value = "Get all cars", notes = "Allows you to get a list of all cars")
+    @ApiOperation(value = "Get all cars", notes = "Allows you to get a list of all cars. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<CarResponse>> getAllCars() {
         final List<Car> cars = carService.fetchAllCars();
 
@@ -50,7 +53,8 @@ public class CarController {
     }
 
     @PutMapping(produces = "application/json")
-    @ApiOperation(value = "Update car", notes = "Allows you to update a car in the form of a json request")
+    @ApiOperation(value = "Update car", notes = "Allows you to update a car in the form of a json request. Access with ADMIN role.")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<CarResponse> updateCar(@RequestBody @Valid UpdateCarRequest request) {
         final Car car = carService.editCar(request);
 
@@ -60,7 +64,8 @@ public class CarController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    @ApiOperation(value = "Get car by id", notes = "Allows you to get a car by id")
+    @ApiOperation(value = "Get car by id", notes = "Allows you to get a car by id. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<CarResponse> getCarById(@PathVariable Long id) {
         final Car car = carService.fetchCarById(id);
 

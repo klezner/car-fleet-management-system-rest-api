@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +23,8 @@ public class FleetCardController {
     private final FleetCardService fleetCardService;
 
     @PostMapping(produces = "application/json")
-    @ApiOperation(value = "Add new fleet card", notes = "Allows you to add a new fleet card in the form of a json request")
+    @ApiOperation(value = "Add new fleet card", notes = "Allows you to add a new fleet card in the form of a json request. Access with ADMIN role.")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<FleetCardResponse> addFleetCard(@RequestBody @Valid CreateFleetCardRequest request) {
 
         final FleetCard fleetCard = fleetCardService.createFleetCard(request);
@@ -33,7 +35,8 @@ public class FleetCardController {
     }
 
     @GetMapping(produces = "application/json")
-    @ApiOperation(value = "Get all fleet cards", notes = "Allows you to get a list of all fleet cards")
+    @ApiOperation(value = "Get all fleet cards", notes = "Allows you to get a list of all fleet cards. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<FleetCardResponse>> getAllFleetCards() {
         final List<FleetCard> fleetCards = fleetCardService.fetchAllFleetCards();
 
@@ -51,7 +54,8 @@ public class FleetCardController {
     }
 
     @PutMapping(produces = "application/json")
-    @ApiOperation(value = "Update fleet card", notes = "Allows you to update a fleet card in the form of a json request")
+    @ApiOperation(value = "Update fleet card", notes = "Allows you to update a fleet card in the form of a json request. Access with ADMIN role.")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<FleetCardResponse> updateFleetCard(@RequestBody @Valid UpdateFleetCardRequest request) {
         final FleetCard fleetCard = fleetCardService.editFleetCard(request);
 
@@ -61,7 +65,8 @@ public class FleetCardController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    @ApiOperation(value = "Get fleet card by id", notes = "Allows you to get a fleet card by id")
+    @ApiOperation(value = "Get fleet card by id", notes = "Allows you to get a fleet card by id. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<FleetCardResponse> getFleetCardById(@PathVariable Long id) {
         final FleetCard fleetCard = fleetCardService.fetchFleetCardById(id);
 

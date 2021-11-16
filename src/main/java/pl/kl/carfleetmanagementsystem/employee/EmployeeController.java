@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +23,8 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping(produces = "application/json")
-    @ApiOperation(value = "Add new employee", notes = "Allows you to add a new employee in the form of a json request")
+    @ApiOperation(value = "Add new employee", notes = "Allows you to add a new employee in the form of a json request. Access with ADMIN role.")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<EmployeeResponse> addEmployee(@RequestBody @Valid CreateEmployeeRequest request) {
         final Employee employee = employeeService.createEmployee(request);
 
@@ -32,7 +34,8 @@ public class EmployeeController {
     }
 
     @GetMapping(produces = "application/json")
-    @ApiOperation(value = "Get all employees", notes = "Allows you to get a list of all employees")
+    @ApiOperation(value = "Get all employees", notes = "Allows you to get a list of all employees. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<EmployeeResponse>> getAllEmployees() {
         final List<Employee> employees = employeeService.fetchAllEmployees();
 
@@ -50,7 +53,8 @@ public class EmployeeController {
     }
 
     @PutMapping(produces = "application/json")
-    @ApiOperation(value = "Update employee", notes = "Allows you to update an employee in the form of a json request")
+    @ApiOperation(value = "Update employee", notes = "Allows you to update an employee in the form of a json request. Access with ADMIN role.")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<EmployeeResponse> updateEmployee(@RequestBody @Valid UpdateEmployeeRequest request) {
         final Employee employee = employeeService.editEmployee(request);
 
@@ -60,7 +64,8 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json")
-    @ApiOperation(value = "Get employee by id", notes = "Allows you to get an employee by id")
+    @ApiOperation(value = "Get employee by id", notes = "Allows you to get an employee by id. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable Long id) {
         final Employee employee = employeeService.fetchEmployeeById(id);
 
@@ -70,7 +75,8 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/department/{id}", produces = "application/json")
-    @ApiOperation(value = "Get employees by department id", notes = "Allows you to get employees by department id")
+    @ApiOperation(value = "Get employees by department id", notes = "Allows you to get employees by department id. Access with ADMIN and USER roles.")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<EmployeeResponse>> getEmployeesByDepartmentId(@PathVariable Long id) {
         final List<Employee> employees = employeeService.fetchEmployeesByDepartmentId(id);
 
